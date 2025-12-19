@@ -201,20 +201,20 @@ pnpm pre-commit         # Run pre-commit checks manually
 The application includes comprehensive unit tests:
 
 ```bash
-# Run tests in watch mode
+# Run tests once
 pnpm test
 
-# Run tests once
-pnpm run test:run
+# Run tests in watch mode
+pnpm test:watch
 
 # Run tests with UI
-pnpm run test:ui
+pnpm test:ui
 ```
 
 ### Test Coverage
 
-- **Login Component**: Form validation and user interactions
-- **Pokemon Service**: API calls and data transformation
+- **Login Component**: Form validation and user interactions (4 tests)
+- **Helper Functions**: API calls and data transformation (31 tests)
 - **Context Providers**: Authentication and favorites management
 
 ## 🏗️ Architecture
@@ -387,10 +387,9 @@ pnpm build
 
 ### Hosting Options
 
-- **GitHub Pages**: Automatic deployment via GitHub Actions (recommended)
-- **Netlify**: Drag and drop the `dist` folder
-- **Vercel**: Connect your Git repository
-- **AWS S3**: Upload to S3 bucket with static hosting
+- **GitHub Pages**: Automatic deployment via GitHub Actions (currently configured)
+- **Netlify**: Alternative static hosting (drag and drop the `dist` folder)
+- **Vercel**: Alternative hosting (connect your Git repository)
 
 ## 🔧 Configuration
 
@@ -401,7 +400,7 @@ No environment variables are required. The application uses the public PokéAPI.
 ### Customization
 
 - **Theme**: Modify `src/styles/theme.ts` for colors and spacing
-- **API**: Update `src/services/pokemonApi.ts` for different endpoints
+- **API**: Update `src/utils/pokemonClient.ts` for different endpoints
 - **Layout**: Adjust `src/components/Layout/` components for structure
 
 ## 📱 Browser Support
