@@ -1,0 +1,198 @@
+import type { Pokemon } from 'pokenode-ts';
+import { useState } from 'react';
+import { css } from 'styled-components';
+
+import { useFavorites } from '../../providers';
+import { componentStyles, mediaQueries, getTypeColor } from '../../styles';
+
+interface PokemonCardProps {
+  pokemon: Pokemon;
+  onClick: (pokemon: Pokemon) => void;
+  isLoading?: boolean;
+}
+
+export const PokemonCard = ({
+  pokemon,
+  onClick,
+  isLoading = false,
+}: PokemonCardProps) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const { isFavorite, addToFavorites, removeFromFavorites } = useFavorites();
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isFavorite(pokemon.id)) {
+      removeFromFavorites(pokemon.id);
+    } else {
+      addToFavorites(pokemon.id);
+    }
+  };
+
+  const imageUrl =
+    pokemon.sprites?.other?.['official-artwork']?.front_default ||
+    pokemon.sprites?.front_default ||
+    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
+
+  if (isLoading) {
+    return (
+      <div css={styles.loadingCard}>
+        <div css={styles.loadingSpinner} />
+      </div>
+    );
+  }
+
+  return (
+    <div css={styles.card} onClick={() => onClick(pokemon)}>
+      <div css={styles.imageContainer}>
+        <button css={styles.favoriteButton} onClick={handleFavoriteClick}>
+          <span css={styles.heartIcon(isFavorite(pokemon.id))} />
+        </button>
+
+        <img
+          css={styles.pokemonImage}
+          src={imageUrl}
+          alt={pokemon.name}
+          onLoad={() => setImageLoaded(true)}
+          style={{ opacity: imageLoaded ? 1 : 0 }}
+        />
+
+        {!imageLoaded && <div css={styles.loadingSpinner} />}
+      </div>
+
+      <div css={styles.cardContent}>
+        <div>
+          <h3 css={styles.pokemonName}>{pokemon.name}</h3>
+          <span css={styles.pokemonId}>
+            #{pokemon.id.toString().padStart(3, '0')}
+          </span>
+        </div>
+
+        {pokemon.types && pokemon.types.length > 0 && (
+          <div css={styles.typesContainer}>
+            {pokemon.types.map((type) => (
+              <span key={type.type.name} css={styles.typeBadge(type.type.name)}>
+                {type.type.name}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const styles = {
+  card: css({
+    ...componentStyles.card.base,
+    ...componentStyles.card.interactive,
+    [mediaQueries.mobile]: {
+      '&:hover': {
+        transform: 'none',
+      },
+    },
+  }),
+  imageContainer: css({
+    position: 'relative',
+    height: '200px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    overflow: 'hidden',
+  }),
+  pokemonImage: css(({ theme }) => ({
+    width: '150px',
+    height: '150px',
+    objectFit: 'contain',
+    transition: theme.transitions.normal,
+    zIndex: 1,
+  })),
+  favoriteButton: css(({ theme }) => ({
+    position: 'absolute',
+    top: theme.spacing.sm,
+    right: theme.spacing.sm,
+    background: 'rgba(255, 255, 255, 0.9)',
+    border: 'none',
+    borderRadius: '50%',
+    width: '40px',
+    height: '40px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    cursor: 'pointer',
+    zIndex: 2,
+    transition: theme.transitions.fast,
+    '&:hover': {
+      background: 'rgba(255, 255, 255, 1)',
+      transform: 'scale(1.1)',
+    },
+  })),
+  heartIcon: (isFavorite: boolean) =>
+    css(({ theme }) => ({
+      color: isFavorite ? theme.colors.primary : theme.colors.textSecondary,
+      fontSize: '1.2rem',
+      transition: theme.transitions.fast,
+      '&::before': {
+        content: isFavorite ? '"♥"' : '"♡"',
+      },
+    })),
+  cardContent: css(({ theme }) => ({
+    padding: theme.spacing.lg,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing.md,
+  })),
+  pokemonName: css(({ theme }) => ({
+    color: theme.colors.text,
+    fontSize: '1.2rem',
+    fontWeight: 600,
+    margin: 0,
+    textTransform: 'capitalize',
+    [mediaQueries.mobile]: {
+      fontSize: '1.1rem',
+    },
+  })),
+  pokemonId: css(({ theme }) => ({
+    color: theme.colors.textSecondary,
+    fontSize: '0.9rem',
+    fontWeight: 500,
+  })),
+  typesContainer: css(({ theme }) => ({
+    display: 'flex',
+    gap: theme.spacing.sm,
+    flexWrap: 'wrap',
+    marginTop: theme.spacing.sm,
+  })),
+  typeBadge: (type: string) =>
+    css(({ theme }) => ({
+      background: getTypeColor(type),
+      color: 'white',
+      fontSize: '0.8rem',
+      padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
+      borderRadius: theme.borderRadius.sm,
+      textTransform: 'uppercase',
+      fontWeight: 500,
+    })),
+  loadingCard: css(({ theme }) => ({
+    background: theme.colors.surface,
+    borderRadius: theme.borderRadius.lg,
+    height: '300px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    overflow: 'hidden',
+  })),
+  loadingSpinner: css(({ theme }) => ({
+    width: '40px',
+    height: '40px',
+    border: `3px solid ${theme.colors.textSecondary}`,
+    borderTop: `3px solid ${theme.colors.primary}`,
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
+    '@keyframes spin': {
+      '0%': { transform: 'rotate(0deg)' },
+      '100%': { transform: 'rotate(360deg)' },
+    },
+  })),
+};
