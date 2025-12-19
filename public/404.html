@@ -25,24 +25,19 @@
       var pathSegmentsToKeep = 1;
 
       var l = window.location;
+      var pathname = l.pathname;
+      
+      // Handle trailing slash - if pathname ends with /, remove it for processing
+      if (pathname.endsWith('/') && pathname !== '/') {
+        pathname = pathname.slice(0, -1);
+      }
+      
       l.replace(
-        l.protocol +
-          '//' +
-          l.hostname +
-          (l.port ? ':' + l.port : '') +
-          l.pathname
-            .split('/')
-            .slice(0, 1 + pathSegmentsToKeep)
-            .join('/') +
-          '/?/' +
-          l.pathname
-            .slice(1)
-            .split('/')
-            .slice(pathSegmentsToKeep)
-            .join('/')
-            .replace(/&/g, '~and~') +
-          (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
-          l.hash,
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
       );
     </script>
   </head>

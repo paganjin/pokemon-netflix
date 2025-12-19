@@ -133,4 +133,11 @@ export default [
       'no-var': 'error',
     },
   },
+  // Override for provider files to disable react-refresh warnings
+  {
+    files: ['src/providers/**/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ];
