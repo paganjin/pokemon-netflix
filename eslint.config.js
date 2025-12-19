@@ -68,7 +68,10 @@ export default [
       ...reactHooks.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',
-        { allowConstantExport: true },
+        {
+          allowConstantExport: true,
+          checkJS: false,
+        },
       ],
       'react-hooks/set-state-in-effect': 'off', // Disable for CI/CD
       'react-hooks/exhaustive-deps': 'warn', // Make this a warning instead of error
@@ -123,7 +126,7 @@ export default [
         {
           builtinGlobals: false,
           hoist: 'functions',
-          allow: [],
+          allow: ['theme', 'user'],
         },
       ],
       'prefer-const': 'error',

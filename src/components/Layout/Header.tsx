@@ -128,38 +128,38 @@ export const Header = ({ currentPage, onPageChange }: HeaderProps) => {
 };
 
 const styles = {
-  headerContainer: css(({ theme }) => ({
+  headerContainer: css(({ theme: t }) => ({
     position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
-    height: theme.layout.headerHeight,
+    height: t.layout.headerHeight,
     background: 'rgba(20, 20, 20, 0.95)',
-    backdropFilter: theme.blur.md,
-    borderBottom: `1px solid ${theme.colors.surface}`,
+    backdropFilter: t.blur.md,
+    borderBottom: `1px solid ${t.colors.surface}`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: `0 ${theme.spacing.xl}`,
+    padding: `0 ${t.spacing.xl}`,
     zIndex: 1000,
     [mediaQueries.tablet]: {
-      padding: `0 ${theme.spacing.lg}`,
+      padding: `0 ${t.spacing.lg}`,
     },
     [mediaQueries.mobile]: {
-      padding: `0 ${theme.spacing.md}`,
+      padding: `0 ${t.spacing.md}`,
     },
   })),
-  logo: css(({ theme }) => ({
-    color: theme.colors.primary,
+  logo: css(({ theme: t }) => ({
+    color: t.colors.primary,
     margin: 0,
     [mediaQueries.mobile]: {
       fontSize: typographyStyles.h3.fontSize,
     },
   })),
-  desktopNav: css(({ theme }) => ({
+  desktopNav: css(({ theme: t }) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: theme.spacing.lg,
+    gap: t.spacing.lg,
     [mediaQueries.tablet]: {
       display: 'none',
     },

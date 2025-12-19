@@ -228,7 +228,7 @@ const mockPokemon: Pokemon = {
       },
       'generation-viii': { icons: { front_default: null, front_female: null } },
     },
-  } as any,
+  } as Pokemon['sprites'],
   stats: [
     {
       base_stat: 45,
@@ -480,9 +480,9 @@ describe('Pokemon Helper Functions', () => {
     });
 
     it('should throw error for non-string input', async () => {
-      await expect(fetchPokemonByName(null as any)).rejects.toThrow(
-        'Invalid Pokemon name: must be a non-empty string',
-      );
+      await expect(
+        fetchPokemonByName(null as unknown as string),
+      ).rejects.toThrow('Invalid Pokemon name: must be a non-empty string');
     });
 
     it('should handle API errors gracefully', async () => {

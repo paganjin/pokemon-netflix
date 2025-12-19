@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 
 import type { FavoritesContextType } from '../types';
 
@@ -21,23 +27,21 @@ export const FavoritesProvider = ({
   const getUserFavoritesKey = (userId: string) =>
     `${FAVORITES_STORAGE_KEY}-${userId}`;
 
-  const loadUserFavorites = (userId: string) => {
+  const loadUserFavorites = useCallback((userId: string) => {
     const userFavoritesKey = getUserFavoritesKey(userId);
     const storedFavorites = localStorage.getItem(userFavoritesKey);
     if (storedFavorites) {
       try {
-        const favoritesData = JSON.parse(storedFavorites);
-        if (Array.isArray(favoritesData)) {
-          setFavorites(favoritesData);
-        }
+        const parsed = JSON.parse(storedFavorites);
+        setFavorites(Array.isArray(parsed) ? parsed : []);
       } catch (error) {
         console.error('Error parsing stored favorites:', error);
-        localStorage.removeItem(userFavoritesKey);
+        setFavorites([]);
       }
     } else {
       setFavorites([]);
     }
-  };
+  }, []);
 
   const saveUserFavorites = (userId: string, userFavorites: number[]) => {
     const userFavoritesKey = getUserFavoritesKey(userId);
@@ -50,7 +54,7 @@ export const FavoritesProvider = ({
     } else {
       setFavorites([]);
     }
-  }, [user?.id]);
+  }, [user?.id, loadUserFavorites]);
 
   const addToFavorites = (pokemonId: number) => {
     if (!user?.id) return;
