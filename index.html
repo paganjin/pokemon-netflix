@@ -8,13 +8,19 @@
     <!-- Start Single Page Apps for GitHub Pages -->
     <script type="text/javascript">
       // Handle trailing slash redirect for GitHub Pages
-      (function(l) {
+      (function (l) {
         // If we're at the root with trailing slash, redirect to without slash
-        if (l.pathname === '/pokemon-netflix/' && l.search === '' && l.hash === '') {
-          window.location.replace(l.protocol + '//' + l.hostname + '/pokemon-netflix');
+        if (
+          l.pathname === '/pokemon-netflix/' &&
+          l.search === '' &&
+          l.hash === ''
+        ) {
+          window.location.replace(
+            l.protocol + '//' + l.hostname + '/pokemon-netflix',
+          );
           return;
         }
-        
+
         // Single Page Apps for GitHub Pages
         // MIT License
         // https://github.com/rafgraph/spa-github-pages
@@ -25,15 +31,21 @@
         // When the single page app is loaded further down in this file,
         // the correct url will be waiting in the browser's history for
         // the single page app to route accordingly.
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
+        if (l.search[1] === '/') {
+          var decoded = l.search
+            .slice(1)
+            .split('&')
+            .map(function (s) {
+              return s.replace(/~and~/g, '&');
+            })
+            .join('?');
+          window.history.replaceState(
+            null,
+            null,
+            l.pathname.slice(0, -1) + decoded + l.hash,
           );
         }
-      }(window.location));
+      })(window.location);
     </script>
     <!-- End Single Page Apps for GitHub Pages -->
   </head>
