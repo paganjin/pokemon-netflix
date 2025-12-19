@@ -1,5 +1,6 @@
 import type { Pokemon } from 'pokenode-ts';
 import { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import {
@@ -8,6 +9,7 @@ import {
   PokemonGrid,
   FavoritesGrid,
   PokemonModal,
+  NotFound,
 } from './components';
 import {
   AuthProvider,
@@ -16,16 +18,19 @@ import {
   QueryProvider,
 } from './providers';
 import { GlobalStyles, theme } from './styles';
-import type { AppPage } from './types';
+
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Login />;
+  }
+
+  return <>{children}</>;
+};
 
 const AppContent = () => {
-  const { isAuthenticated } = useAuth();
-  const [currentPage, setCurrentPage] = useState<AppPage>('home');
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
-
-  const handleNavigate = (page: AppPage) => {
-    setCurrentPage(page);
-  };
 
   const handlePokemonClick = (pokemon: Pokemon) => {
     setSelectedPokemon(pokemon);
@@ -35,22 +40,41 @@ const AppContent = () => {
     setSelectedPokemon(null);
   };
 
-  if (!isAuthenticated) {
-    return <Login />;
-  }
-
   return (
-    <Layout onNavigate={handleNavigate} currentPage={currentPage}>
-      {currentPage === 'home' ? (
-        <PokemonGrid onPokemonClick={handlePokemonClick} />
-      ) : (
-        <FavoritesGrid onPokemonClick={handlePokemonClick} />
-      )}
+    <BrowserRouter
+      basename={
+        process.env.NODE_ENV === 'production' ? '/pokemon-netflix' : '/'
+      }
+    >
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <PokemonGrid onPokemonClick={handlePokemonClick} />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/favorites"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <FavoritesGrid onPokemonClick={handlePokemonClick} />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
       {selectedPokemon && (
         <PokemonModal pokemon={selectedPokemon} onClose={handleCloseModal} />
       )}
-    </Layout>
+    </BrowserRouter>
   );
 };
 

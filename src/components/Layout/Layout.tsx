@@ -1,21 +1,18 @@
 import { css } from 'styled-components';
 
 import { mediaQueries } from '../../styles';
-import type { AppPage } from '../../types';
 
 import { Footer } from './Footer';
 import { Header } from './Header';
 
 interface LayoutProps {
   children: React.ReactNode;
-  onNavigate: (page: AppPage) => void;
-  currentPage: AppPage;
 }
 
-export const Layout = ({ children, onNavigate, currentPage }: LayoutProps) => {
+export const Layout = ({ children }: LayoutProps) => {
   return (
     <div css={styles.layoutContainer}>
-      <Header onPageChange={onNavigate} currentPage={currentPage} />
+      <Header />
       <main css={styles.mainContent}>{children}</main>
       <Footer />
     </div>

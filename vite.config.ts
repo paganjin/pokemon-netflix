@@ -4,6 +4,10 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   base: process.env.NODE_ENV === 'production' ? '/pokemon-netflix/' : '/',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  },
   plugins: [
     react({
       babel: {

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { css } from 'styled-components';
 
 import { useAuth, useFavorites } from '../../providers';
@@ -8,14 +9,9 @@ import {
   typographyStyles,
   mediaQueries,
 } from '../../styles';
-import type { AppPage } from '../../types';
 
-interface HeaderProps {
-  currentPage: AppPage;
-  onPageChange: (page: AppPage) => void;
-}
-
-export const Header = ({ currentPage, onPageChange }: HeaderProps) => {
+export const Header = () => {
+  const location = useLocation();
   const { user, logout } = useAuth();
   const { favorites } = useFavorites();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -25,8 +21,7 @@ export const Header = ({ currentPage, onPageChange }: HeaderProps) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleNavClick = (page: AppPage) => {
-    onPageChange(page);
+  const handleNavClick = () => {
     setIsMobileMenuOpen(false);
   };
 
@@ -63,22 +58,24 @@ export const Header = ({ currentPage, onPageChange }: HeaderProps) => {
 
       {/* Desktop Navigation */}
       <nav css={styles.desktopNav}>
-        <button
-          css={styles.navLink(currentPage === 'home')}
-          onClick={() => handleNavClick('home')}
+        <Link
+          to="/"
+          css={styles.navLink(location.pathname === '/')}
+          onClick={handleNavClick}
         >
           Home
-        </button>
+        </Link>
 
-        <button
-          css={styles.navLink(currentPage === 'favorites')}
-          onClick={() => handleNavClick('favorites')}
+        <Link
+          to="/favorites"
+          css={styles.navLink(location.pathname === '/favorites')}
+          onClick={handleNavClick}
         >
           My List
           {favorites.length > 0 && (
             <span css={styles.favoritesBadge}>{favorites.length}</span>
           )}
-        </button>
+        </Link>
       </nav>
 
       {/* Mobile Menu Button */}
@@ -98,22 +95,24 @@ export const Header = ({ currentPage, onPageChange }: HeaderProps) => {
       {/* Mobile Dropdown Menu */}
       {isMobileMenuOpen && (
         <div css={styles.mobileDropdown}>
-          <button
-            css={styles.mobileNavLink(currentPage === 'home')}
-            onClick={() => handleNavClick('home')}
+          <Link
+            to="/"
+            css={styles.mobileNavLink(location.pathname === '/')}
+            onClick={handleNavClick}
           >
             Home
-          </button>
+          </Link>
 
-          <button
-            css={styles.mobileNavLink(currentPage === 'favorites')}
-            onClick={() => handleNavClick('favorites')}
+          <Link
+            to="/favorites"
+            css={styles.mobileNavLink(location.pathname === '/favorites')}
+            onClick={handleNavClick}
           >
             My List
             {favorites.length > 0 && (
               <span css={styles.mobileFavoritesBadge}>{favorites.length}</span>
             )}
-          </button>
+          </Link>
 
           <div css={styles.mobileUserSection}>
             <span css={styles.mobileUserName}>Welcome, {user?.username}</span>
