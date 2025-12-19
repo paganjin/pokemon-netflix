@@ -64,12 +64,6 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-      - name: Upload test coverage
-        uses: codecov/codecov-action@v4
-        if: always()
-        with:
-          fail_ci_if_error: false
-
   # Build Stage
   build:
     name: Build Application
