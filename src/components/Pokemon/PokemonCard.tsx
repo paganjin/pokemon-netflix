@@ -2,10 +2,10 @@ import type { Pokemon } from 'pokenode-ts';
 import { useState } from 'react';
 import { css } from 'styled-components';
 
-import { useFavorites } from '../../providers';
-import { componentStyles, mediaQueries, getTypeColor } from '../../styles';
 import PokeballCatchIcon from '../../assets/pokeball-catch.svg?react';
 import PokeballEmptyIcon from '../../assets/pokeball-empty.svg?react';
+import { useFavorites } from '../../providers';
+import { componentStyles, mediaQueries, getTypeColor } from '../../styles';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -50,10 +50,14 @@ export const PokemonCard = ({
       data-testid="pokemon-card"
     >
       <div css={styles.imageContainer}>
-        <button 
-          css={styles.favoriteButton} 
+        <button
+          css={styles.favoriteButton}
           onClick={handleFavoriteClick}
-          aria-label={isFavorite(pokemon.id) ? 'Remove from favorites' : 'Add to favorites'}
+          aria-label={
+            isFavorite(pokemon.id)
+              ? 'Remove from favorites'
+              : 'Add to favorites'
+          }
         >
           {isFavorite(pokemon.id) ? (
             <PokeballCatchIcon

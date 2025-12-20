@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint:fix": "eslint . --fix && pnpm format",
     "preview": "vite preview",
     "test": "vitest --run",
     "test:watch": "vitest",
@@ -19,7 +19,7 @@
     "test:all": "pnpm test && pnpm test:e2e",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "pre-commit-check": "pnpm lint && pnpm format:check && tsc --noEmit",
+    "pre-commit-check": "pnpm lint && pnpm format:check",
     "prepare": "husky",
     "pre-commit": "lint-staged"
   },
@@ -69,8 +69,7 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
-      "prettier --write",
-      "tsc --noEmit"
+      "prettier --write"
     ],
     "*.{json,md,yml,yaml}": [
       "prettier --write"

@@ -2,11 +2,11 @@ import type { Pokemon } from 'pokenode-ts';
 import { useEffect } from 'react';
 import { css } from 'styled-components';
 
-import { useFavorites } from '../../providers';
-import { mediaQueries, getTypeColor } from '../../styles';
 import CloseIcon from '../../assets/close.svg?react';
 import PokeballCatchIcon from '../../assets/pokeball-catch.svg?react';
 import PokeballEmptyIcon from '../../assets/pokeball-empty.svg?react';
+import { useFavorites } from '../../providers';
+import { mediaQueries, getTypeColor } from '../../styles';
 
 interface PokemonModalProps {
   pokemon: Pokemon;
@@ -54,15 +54,23 @@ export const PokemonModal = ({ pokemon, onClose }: PokemonModalProps) => {
   return (
     <div css={styles.modalOverlay} onClick={handleOverlayClick}>
       <div css={styles.modalContent} data-testid="pokemon-modal">
-        <button css={styles.closeButton} onClick={onClose} aria-label="Close modal">
+        <button
+          css={styles.closeButton}
+          onClick={onClose}
+          aria-label="Close modal"
+        >
           <CloseIcon css={styles.closeIcon} data-testid="close-modal" />
         </button>
 
         <div css={styles.header}>
-          <button 
-            css={styles.favoriteButton} 
+          <button
+            css={styles.favoriteButton}
             onClick={handleFavoriteClick}
-            aria-label={isFavorite(pokemon.id) ? 'Remove from favorites' : 'Add to favorites'}
+            aria-label={
+              isFavorite(pokemon.id)
+                ? 'Remove from favorites'
+                : 'Add to favorites'
+            }
           >
             {isFavorite(pokemon.id) ? (
               <PokeballCatchIcon

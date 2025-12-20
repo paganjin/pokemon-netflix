@@ -203,23 +203,29 @@ test.describe('Authentication Flow', () => {
     await expect(page.getByText('PokéFlix')).toBeVisible();
   });
 
-  test('should show NotFound page for invalid routes when not logged in', async ({ page }) => {
+  test('should show NotFound page for invalid routes when not logged in', async ({
+    page,
+  }) => {
     await page.goto('/invalid-route');
-    
+
     // Should see NotFound page without layout
     await expect(page.getByText('404')).toBeVisible();
-    await expect(page.getByText(/Oops! The page you're looking for doesn't exist/)).toBeVisible();
+    await expect(
+      page.getByText(/Oops! The page you're looking for doesn't exist/),
+    ).toBeVisible();
     await expect(page.getByText('Go to Login')).toBeVisible();
   });
 
   test('should navigate from NotFound to login', async ({ page }) => {
     await page.goto('/invalid-route');
-    
+
     // Click "Go to Login" link
     await page.getByText('Go to Login').click();
-    
+
     // Should navigate to login page
     await expect(page).toHaveURL('/login');
-    await expect(page.getByText('Sign in to access your Pokémon collection.')).toBeVisible();
+    await expect(
+      page.getByText('Sign in to access your Pokémon collection.'),
+    ).toBeVisible();
   });
 });

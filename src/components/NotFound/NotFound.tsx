@@ -14,8 +14,8 @@ const NotFound = () => {
         Oops! The page you're looking for doesn't exist. Maybe this Pokémon
         escaped to another dimension?
       </p>
-      <Link css={styles.homeLink} to={isAuthenticated ? "/" : "/login"}>
-        {isAuthenticated ? "Return to Home" : "Go to Login"}
+      <Link css={styles.homeLink} to={isAuthenticated ? '/' : '/login'}>
+        {isAuthenticated ? 'Return to Home' : 'Go to Login'}
       </Link>
     </div>
   );
