@@ -52,7 +52,7 @@ export const PokemonModal = ({ pokemon, onClose }: PokemonModalProps) => {
     <div css={styles.modalOverlay} onClick={handleOverlayClick}>
       <div css={styles.modalContent} data-testid="pokemon-modal">
         <button css={styles.closeButton} onClick={onClose}>
-          <img css={styles.closeIcon} src="/close.svg" alt="Close modal" />
+          <img css={styles.closeIcon} src="./close.svg" alt="Close modal" />
         </button>
 
         <div css={styles.header}>
@@ -61,8 +61,8 @@ export const PokemonModal = ({ pokemon, onClose }: PokemonModalProps) => {
               css={styles.pokeballIcon}
               src={
                 isFavorite(pokemon.id)
-                  ? '/pokeball-catch.svg'
-                  : '/pokeball-empty.svg'
+                  ? './pokeball-catch.svg'
+                  : './pokeball-empty.svg'
               }
               alt={
                 isFavorite(pokemon.id)

@@ -190,7 +190,7 @@ describe('PokemonCard', () => {
       });
       const pokeballIcon = favoriteButton.querySelector('img');
 
-      expect(pokeballIcon).toHaveAttribute('src', '/pokeball-empty.svg');
+      expect(pokeballIcon).toHaveAttribute('src', './pokeball-empty.svg');
       expect(pokeballIcon).toHaveAttribute('alt', 'Add to favorites');
     });
 
@@ -206,7 +206,7 @@ describe('PokemonCard', () => {
       });
       const pokeballIcon = favoriteButton.querySelector('img');
 
-      expect(pokeballIcon).toHaveAttribute('src', '/pokeball-catch.svg');
+      expect(pokeballIcon).toHaveAttribute('src', './pokeball-catch.svg');
       expect(pokeballIcon).toHaveAttribute('alt', 'Remove from favorites');
     });
 

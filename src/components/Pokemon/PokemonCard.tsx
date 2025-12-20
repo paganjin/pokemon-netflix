@@ -53,8 +53,8 @@ export const PokemonCard = ({
             css={styles.pokeballIcon}
             src={
               isFavorite(pokemon.id)
-                ? '/pokeball-catch.svg'
-                : '/pokeball-empty.svg'
+                ? './pokeball-catch.svg'
+                : './pokeball-empty.svg'
             }
             alt={
               isFavorite(pokemon.id)
