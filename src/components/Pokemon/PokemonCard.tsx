@@ -31,7 +31,7 @@ export const PokemonCard = ({
   const imageUrl =
     pokemon.sprites?.other?.['official-artwork']?.front_default ||
     pokemon.sprites?.front_default ||
-    `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
+    undefined;
 
   if (isLoading) {
     return (

@@ -148,10 +148,7 @@ describe('PokemonCard', () => {
       );
 
       const image = screen.getByAltText('bulbasaur');
-      expect(image).toHaveAttribute(
-        'src',
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png'
-      );
+      expect(image).toHaveAttribute('src', '');
     });
 
     it('should format Pokemon ID with leading zeros', () => {
