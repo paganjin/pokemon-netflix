@@ -1,4 +1,36 @@
 import { test, expect } from '@playwright/test';
+import type { Page } from '@playwright/test';
+
+const waitForMobileMenuAnimation = async (page: Page) => {
+  await page.waitForTimeout(300);
+};
+
+const expectWelcomeMessage = async (page: Page, username: string) => {
+  const mobileMenuButton = page.getByTestId('mobile-menu-button');
+  const welcomeText = `Welcome, ${username}`;
+
+  if (await mobileMenuButton.isVisible()) {
+    await mobileMenuButton.click();
+    await waitForMobileMenuAnimation(page);
+    await expect(page.getByTestId('mobile-welcome')).toHaveText(welcomeText);
+    await mobileMenuButton.click(); // close menu
+    await waitForMobileMenuAnimation(page);
+  } else {
+    await expect(page.getByTestId('desktop-welcome')).toHaveText(welcomeText);
+  }
+};
+
+const clickSignOutButton = async (page: Page) => {
+  const mobileMenuButton = page.getByTestId('mobile-menu-button');
+
+  if (await mobileMenuButton.isVisible()) {
+    await mobileMenuButton.click();
+    await waitForMobileMenuAnimation(page);
+    await page.getByTestId('mobile-sign-out').click();
+  } else {
+    await page.getByTestId('desktop-sign-out').click();
+  }
+};
 
 test.describe('Authentication Flow', () => {
   test.beforeEach(async ({ page }) => {
@@ -15,7 +47,7 @@ test.describe('Authentication Flow', () => {
   test('should display login page for unauthenticated users', async ({
     page,
   }) => {
-    await expect(page).toHaveTitle(/pokemon-netflix/);
+    await expect(page).toHaveTitle('Pokemon Netflix');
     await expect(
       page.getByText('Sign in to access your Pokémon collection.'),
     ).toBeVisible();
@@ -48,21 +80,7 @@ test.describe('Authentication Flow', () => {
     await page.getByPlaceholder('Enter your password').fill(password);
     await page.getByRole('button', { name: 'Sign In' }).click();
 
-    // Should be logged in and redirected to home page
-    // On mobile, need to open dropdown to see Welcome message
-    const mobileMenuButton = page
-      .locator('button')
-      .filter({ has: page.locator('span') })
-      .first(); // Hamburger menu with spans
-    if (await mobileMenuButton.isVisible()) {
-      await mobileMenuButton.click();
-      // Wait for mobile dropdown to appear and target Welcome message within it
-      await page.waitForTimeout(500);
-      await expect(page.getByText(`Welcome, ${username}`).last()).toBeVisible(); // Use .last() to get mobile version
-    } else {
-      // Desktop version
-      await expect(page.getByText(`Welcome, ${username}`)).toBeVisible();
-    }
+    await expectWelcomeMessage(page, username);
     await expect(page.getByText('PokéFlix')).toBeVisible();
   });
 
@@ -87,21 +105,7 @@ test.describe('Authentication Flow', () => {
     await page.getByPlaceholder('Enter your password').fill(password);
     await page.getByRole('button', { name: 'Sign In' }).click();
 
-    // Should be logged in successfully
-    // On mobile, need to open dropdown to see Welcome message
-    const mobileMenuButton = page
-      .locator('button')
-      .filter({ has: page.locator('span') })
-      .first();
-    if (await mobileMenuButton.isVisible()) {
-      await mobileMenuButton.click();
-      // Wait for mobile dropdown to appear and target Welcome message within it
-      await page.waitForTimeout(500);
-      await expect(page.getByText(`Welcome, ${username}`).last()).toBeVisible(); // Use .last() to get mobile version
-    } else {
-      // Desktop version
-      await expect(page.getByText(`Welcome, ${username}`)).toBeVisible();
-    }
+    await expectWelcomeMessage(page, username);
   });
 
   test('should show error for invalid login credentials', async ({ page }) => {
@@ -157,24 +161,10 @@ test.describe('Authentication Flow', () => {
     await page.getByPlaceholder('Enter your username').fill(username);
     await page.getByPlaceholder('Enter your password').fill(password);
     await page.getByRole('button', { name: 'Sign In' }).click();
-    // On mobile, need to open dropdown to see Welcome message
-    const mobileMenuButton = page
-      .locator('button')
-      .filter({ has: page.locator('span') })
-      .first();
-    if (await mobileMenuButton.isVisible()) {
-      await mobileMenuButton.click();
-      // Wait for mobile dropdown to appear and target Welcome message within it
-      await page.waitForTimeout(500);
-      await expect(page.getByText(`Welcome, ${username}`).last()).toBeVisible(); // Use .last() to get mobile version
-    } else {
-      // Desktop version
-      await expect(page.getByText(`Welcome, ${username}`)).toBeVisible();
-    }
+    await expectWelcomeMessage(page, username);
 
-    // Now logout (Sign Out is also in mobile dropdown)
-    // Use .last() to target the mobile Sign Out button when dropdown is open
-    await page.getByText('Sign Out').last().click();
+    // Now logout
+    await clickSignOutButton(page);
 
     // Should be redirected to login page
     await expect(
@@ -203,39 +193,33 @@ test.describe('Authentication Flow', () => {
     await page.getByPlaceholder('Enter your username').fill(username);
     await page.getByPlaceholder('Enter your password').fill(password);
     await page.getByRole('button', { name: 'Sign In' }).click();
-    // On mobile, need to open dropdown to see Welcome message
-    const mobileMenuButton = page
-      .locator('button')
-      .filter({ has: page.locator('span') })
-      .first();
-    if (await mobileMenuButton.isVisible()) {
-      await mobileMenuButton.click();
-      // Wait for mobile dropdown to appear and target Welcome message within it
-      await page.waitForTimeout(500);
-      await expect(page.getByText(`Welcome, ${username}`).last()).toBeVisible(); // Use .last() to get mobile version
-    } else {
-      // Desktop version
-      await expect(page.getByText(`Welcome, ${username}`)).toBeVisible();
-    }
+    await expectWelcomeMessage(page, username);
 
     // Try to navigate to login page while authenticated
     await page.goto('/');
 
     // Should be redirected to home page, not login
-    // On mobile, need to open dropdown again after navigation
-    const mobileMenuButton2 = page
-      .locator('button')
-      .filter({ has: page.locator('span') })
-      .first();
-    if (await mobileMenuButton2.isVisible()) {
-      await mobileMenuButton2.click();
-      // Wait for mobile dropdown to appear and target Welcome message within it
-      await page.waitForTimeout(500);
-      await expect(page.getByText(`Welcome, ${username}`).last()).toBeVisible(); // Use .last() to get mobile version
-    } else {
-      // Desktop version
-      await expect(page.getByText(`Welcome, ${username}`)).toBeVisible();
-    }
+    await expectWelcomeMessage(page, username);
     await expect(page.getByText('PokéFlix')).toBeVisible();
+  });
+
+  test('should show NotFound page for invalid routes when not logged in', async ({ page }) => {
+    await page.goto('/invalid-route');
+    
+    // Should see NotFound page without layout
+    await expect(page.getByText('404')).toBeVisible();
+    await expect(page.getByText(/Oops! The page you're looking for doesn't exist/)).toBeVisible();
+    await expect(page.getByText('Go to Login')).toBeVisible();
+  });
+
+  test('should navigate from NotFound to login', async ({ page }) => {
+    await page.goto('/invalid-route');
+    
+    // Click "Go to Login" link
+    await page.getByText('Go to Login').click();
+    
+    // Should navigate to login page
+    await expect(page).toHaveURL('/login');
+    await expect(page.getByText('Sign in to access your Pokémon collection.')).toBeVisible();
   });
 });

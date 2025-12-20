@@ -79,15 +79,24 @@ export const Header = () => {
       </nav>
 
       {/* Mobile Menu Button */}
-      <button css={styles.mobileMenuButton} onClick={toggleMobileMenu}>
+      <button
+        css={styles.mobileMenuButton}
+        onClick={toggleMobileMenu}
+        data-testid="mobile-menu-button"
+        aria-label="Toggle navigation"
+      >
         <span css={styles.hamburgerLine}></span>
         <span css={styles.hamburgerLine}></span>
         <span css={styles.hamburgerLine}></span>
       </button>
 
       <div css={styles.userInfo}>
-        <span>Welcome, {user?.username}</span>
-        <button css={styles.signOutButton} onClick={logout}>
+        <span data-testid="desktop-welcome">Welcome, {user?.username}</span>
+        <button
+          css={styles.signOutButton}
+          onClick={logout}
+          data-testid="desktop-sign-out"
+        >
           Sign Out
         </button>
       </div>
@@ -115,8 +124,14 @@ export const Header = () => {
           </Link>
 
           <div css={styles.mobileUserSection}>
-            <span css={styles.mobileUserName}>Welcome, {user?.username}</span>
-            <button css={styles.mobileSignOutButton} onClick={logout}>
+            <span css={styles.mobileUserName} data-testid="mobile-welcome">
+              Welcome, {user?.username}
+            </span>
+            <button
+              css={styles.mobileSignOutButton}
+              onClick={logout}
+              data-testid="mobile-sign-out"
+            >
               Sign Out
             </button>
           </div>

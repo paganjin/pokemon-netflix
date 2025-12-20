@@ -1,55 +1,65 @@
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { css } from 'styled-components';
 
-const NotFoundContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 60vh;
-  text-align: center;
-  padding: ${({ theme }) => theme.spacing.xl};
-`;
-
-const NotFoundTitle = styled.h1`
-  font-size: 4rem;
-  color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-`;
-
-const NotFoundMessage = styled.p`
-  font-size: 1.2rem;
-  color: ${({ theme }) => theme.colors.text};
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
-  max-width: 500px;
-`;
-
-const HomeLink = styled(Link)`
-  background: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.background};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
-    transform: translateY(-2px);
-  }
-`;
+import { useAuth } from '../../providers';
+import { Layout } from '../Layout';
 
 const NotFound = () => {
-  return (
-    <NotFoundContainer>
-      <NotFoundTitle>404</NotFoundTitle>
-      <NotFoundMessage>
+  const { isAuthenticated } = useAuth();
+
+  const content = (
+    <div css={styles.container}>
+      <h1 css={styles.title}>404</h1>
+      <p css={styles.message}>
         Oops! The page you're looking for doesn't exist. Maybe this Pokémon
         escaped to another dimension?
-      </NotFoundMessage>
-      <HomeLink to="/">Return to Home</HomeLink>
-    </NotFoundContainer>
+      </p>
+      <Link css={styles.homeLink} to={isAuthenticated ? "/" : "/login"}>
+        {isAuthenticated ? "Return to Home" : "Go to Login"}
+      </Link>
+    </div>
   );
+
+  // If user is authenticated, wrap in Layout. If not, show standalone.
+  return isAuthenticated ? <Layout>{content}</Layout> : content;
 };
 
 export default NotFound;
+
+const styles = {
+  container: css(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '60vh',
+    textAlign: 'center',
+    padding: theme.spacing.xl,
+  })),
+  title: css(({ theme }) => ({
+    fontSize: '4rem',
+    color: theme.colors.primary,
+    marginBottom: theme.spacing.lg,
+    margin: 0,
+  })),
+  message: css(({ theme }) => ({
+    fontSize: '1.2rem',
+    color: theme.colors.text,
+    marginBottom: theme.spacing.xl,
+    maxWidth: '500px',
+    margin: `0 0 ${theme.spacing.xl} 0`,
+  })),
+  homeLink: css(({ theme }) => ({
+    background: theme.colors.primary,
+    color: theme.colors.background,
+    padding: `${theme.spacing.md} ${theme.spacing.lg}`,
+    borderRadius: theme.borderRadius.md,
+    textDecoration: 'none',
+    fontWeight: 600,
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      background: theme.colors.primaryHover,
+      transform: 'translateY(-2px)',
+    },
+  })),
+};

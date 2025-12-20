@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
-    return <Login />;
+    return <Navigate to="/login" replace />;
   }
 
   return <>{children}</>;
@@ -85,16 +85,7 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="*"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <NotFound />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
+        <Route path="*" element={<NotFound />} />
       </Routes>
 
       {selectedPokemon && (
