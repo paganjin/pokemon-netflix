@@ -50,6 +50,7 @@
     "@typescript-eslint/eslint-plugin": "^8.50.0",
     "@typescript-eslint/parser": "^8.50.0",
     "@vitejs/plugin-react": "^5.1.1",
+    "@vitest/coverage-v8": "^4.0.16",
     "babel-plugin-styled-components": "^2.1.4",
     "eslint": "^9.39.1",
     "eslint-plugin-import": "^2.32.0",
