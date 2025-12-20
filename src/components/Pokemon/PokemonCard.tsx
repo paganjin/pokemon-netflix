@@ -197,6 +197,10 @@ const styles = {
     justifyContent: 'center',
     position: 'relative',
     overflow: 'hidden',
+    width: '100%',
+    boxSizing: 'border-box',
+    margin: '0 auto',
+    textAlign: 'center',
   })),
   loadingSpinner: css(({ theme }) => ({
     width: '40px',
@@ -205,9 +209,14 @@ const styles = {
     borderTop: `3px solid ${theme.colors.primary}`,
     borderRadius: '50%',
     animation: 'spin 1s linear infinite',
+    flexShrink: 0,
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     '@keyframes spin': {
-      '0%': { transform: 'rotate(0deg)' },
-      '100%': { transform: 'rotate(360deg)' },
+      '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' },
+      '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' },
     },
   })),
 };
