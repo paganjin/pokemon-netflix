@@ -63,7 +63,7 @@ const mockUseAuth = {
     id: 'test-user-123',
     username: 'testuser',
     isAuthenticated: true,
-  } as any,
+  } as { id: string; username: string; isAuthenticated: boolean } | null,
   isAuthenticated: true,
   login: vi.fn(),
   logout: vi.fn(),

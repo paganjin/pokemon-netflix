@@ -2,7 +2,7 @@ import { vi, describe, it, expect } from 'vitest';
 
 // Mock AuthContext - simple approach that works
 const mockUseAuth = {
-  user: null as any,
+  user: null as { id: string; username: string } | null,
   isAuthenticated: false,
   logout: vi.fn(),
   login: vi.fn(),

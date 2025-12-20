@@ -1,9 +1,11 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { vi, describe, it, expect, beforeEach } from 'vitest';
+import type { Pokemon } from 'pokenode-ts';
 import { ThemeProvider } from 'styled-components';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
+
+import { theme } from '../../styles/theme';
 
 import { PokemonCard } from './PokemonCard';
-import { theme } from '../../styles/theme';
 
 // Mock the FavoritesContext
 const mockUseFavorites = {
@@ -68,7 +70,7 @@ const mockPokemon = {
     },
   ],
   past_types: [],
-} as any;
+} as unknown as Pokemon;
 
 const renderWithTheme = (component: React.ReactElement) => {
   return render(
@@ -125,7 +127,7 @@ describe('PokemonCard', () => {
         sprites: {
           front_default: 'https://example.com/bulbasaur-sprite.png',
         },
-      };
+      } as unknown as Pokemon;
 
       renderWithTheme(
         <PokemonCard pokemon={pokemonWithoutArtwork} onClick={mockOnClick} />
@@ -139,7 +141,7 @@ describe('PokemonCard', () => {
       const pokemonWithoutSprites = {
         ...mockPokemon,
         sprites: {},
-      };
+      } as unknown as Pokemon;
 
       renderWithTheme(
         <PokemonCard pokemon={pokemonWithoutSprites} onClick={mockOnClick} />
@@ -301,7 +303,7 @@ describe('PokemonCard', () => {
     });
 
     it('should handle Pokemon with single type', () => {
-      const singleTypePokemon = {
+      const pokemonWithTypes = {
         ...mockPokemon,
         types: [
           {
@@ -310,10 +312,10 @@ describe('PokemonCard', () => {
             },
           },
         ],
-      };
+      } as unknown as Pokemon;
 
       renderWithTheme(
-        <PokemonCard pokemon={singleTypePokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={pokemonWithTypes} onClick={mockOnClick} />
       );
 
       expect(screen.getByText('electric')).toBeInTheDocument();
@@ -324,7 +326,7 @@ describe('PokemonCard', () => {
       const noTypePokemon = {
         ...mockPokemon,
         types: [],
-      };
+      } as unknown as Pokemon;
 
       renderWithTheme(
         <PokemonCard pokemon={noTypePokemon} onClick={mockOnClick} />
