@@ -151,7 +151,7 @@ describe('PokemonCard', () => {
       );
 
       const image = screen.getByAltText('bulbasaur');
-      expect(image).toHaveAttribute('src', '');
+      expect(image).not.toHaveAttribute('src');
     });
 
     it('should format Pokemon ID with leading zeros', () => {
