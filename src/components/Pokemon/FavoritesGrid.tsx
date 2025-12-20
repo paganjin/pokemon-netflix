@@ -41,7 +41,7 @@ export const FavoritesGrid = ({ onPokemonClick }: FavoritesGridProps) => {
           {Array.from({ length: Math.min(favorites.length, 12) }).map(
             (_, index) => (
               <div key={index} css={styles.loadingCard}>
-                <div css={styles.loadingSpinner}>Loading...</div>
+                <div css={styles.loadingSpinner} />
               </div>
             ),
           )}
@@ -119,8 +119,16 @@ const styles = {
     border: `1px solid ${theme.colors.border}`,
   })),
   loadingSpinner: css(({ theme }) => ({
-    color: theme.colors.textSecondary,
-    fontSize: '1rem',
+    width: '40px',
+    height: '40px',
+    border: `3px solid ${theme.colors.textSecondary}`,
+    borderTop: `3px solid ${theme.colors.primary}`,
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite',
+    '@keyframes spin': {
+      '0%': { transform: 'rotate(0deg)' },
+      '100%': { transform: 'rotate(360deg)' },
+    },
   })),
   emptyState: css(({ theme }) => ({
     textAlign: 'center',

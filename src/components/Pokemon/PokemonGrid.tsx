@@ -160,7 +160,7 @@ export const PokemonGrid = ({ onPokemonClick }: PokemonGridProps) => {
 
       {error && <div css={styles.error}>Error: {error}</div>}
 
-      {loading && pokemon.length === 0 ? (
+      {loading && !pokemon.length ? (
         <div css={styles.loading}>Loading Pokémon...</div>
       ) : (
         <div css={styles.gridSection}>

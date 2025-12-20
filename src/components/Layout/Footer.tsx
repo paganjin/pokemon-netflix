@@ -7,7 +7,7 @@ export const Footer = () => {
     <footer css={styles.footerContainer}>
       <div css={styles.footerContent}>
         <span> 2025 PokFlix</span>
-        <span>•</span>
+        <span css={styles.bulletSeparator}>•</span>
         <a
           css={styles.footerLink}
           href="https://github.com/Gabb-c/pokenode-ts"
@@ -57,6 +57,11 @@ const styles = {
     transition: theme.transitions.fast,
     '&:hover': {
       color: theme.colors.text,
+    },
+  })),
+  bulletSeparator: css(() => ({
+    [mediaQueries.mobile]: {
+      display: 'none',
     },
   })),
 };

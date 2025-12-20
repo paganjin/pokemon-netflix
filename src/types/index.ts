@@ -3,6 +3,7 @@ import type { Pokemon } from 'pokenode-ts';
 export interface User {
   id: string;
   username: string;
+  isAuthenticated?: boolean;
 }
 
 // Custom list response type for our app

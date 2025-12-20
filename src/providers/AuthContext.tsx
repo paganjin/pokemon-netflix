@@ -18,17 +18,47 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const currentUser = localStorage.getItem(CURRENT_USER_KEY);
-    if (currentUser) {
-      try {
-        const userData = JSON.parse(currentUser);
-        setUser(userData);
-        setIsAuthenticated(true);
-      } catch (error) {
-        console.error('Error parsing stored user data:', error);
-        localStorage.removeItem(CURRENT_USER_KEY);
+    const checkAuthState = () => {
+      const storedUser = localStorage.getItem(CURRENT_USER_KEY);
+      if (storedUser) {
+        try {
+          const userData = JSON.parse(storedUser);
+          if (userData.isAuthenticated) {
+            setUser(userData);
+            setIsAuthenticated(true);
+          } else {
+            // User is stored but not authenticated, clear storage
+            setUser(null);
+            setIsAuthenticated(false);
+            localStorage.removeItem(CURRENT_USER_KEY);
+          }
+        } catch (error) {
+          console.error('Error parsing stored user data:', error);
+          localStorage.removeItem(CURRENT_USER_KEY);
+          setUser(null);
+          setIsAuthenticated(false);
+        }
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
       }
-    }
+    };
+
+    // Check auth state on mount
+    checkAuthState();
+
+    // Listen for storage changes from other tabs
+    const handleStorageChange = (event: StorageEvent) => {
+      if (event.key === CURRENT_USER_KEY) {
+        checkAuthState();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const getStoredUsers = (): StoredUser[] => {
@@ -41,16 +71,35 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const saveUser = (user: StoredUser) => {
-    const users = getStoredUsers();
-    const existingIndex = users.findIndex((u) => u.username === user.username);
+    try {
+      console.log('saveUser called with:', user);
+      const users = getStoredUsers();
+      console.log('existing users:', users);
+      
+      // Ensure user object is valid before proceeding
+      if (!user || !user.username || !user.id) {
+        console.error('Invalid user object:', user);
+        return;
+      }
+      
+      const existingIndex = users.findIndex((u) => u.username === user.username);
 
-    if (existingIndex >= 0) {
-      users[existingIndex] = user;
-    } else {
-      users.push(user);
+      if (existingIndex >= 0) {
+        users[existingIndex] = user;
+      } else {
+        users.push(user);
+      }
+
+      console.log('saving users to localStorage:', users);
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+      console.log('localStorage save completed');
+      
+      // Verify the save worked
+      const savedUsers = localStorage.getItem(USERS_STORAGE_KEY);
+      console.log('Verification - saved data:', savedUsers);
+    } catch (error) {
+      console.error('Error in saveUser:', error);
     }
-
-    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
   };
 
   const signUp = async (
@@ -103,9 +152,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return { success: false, message: 'Invalid username or password' };
     }
 
+    const existingUser = user;
+
     const userData: User = {
-      id: user.id,
-      username: user.username,
+      id: existingUser.id,
+      username: existingUser.username,
+      isAuthenticated: true,
     };
 
     setUser(userData);
@@ -116,9 +168,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = () => {
+    if (user) {
+      // Update user object with isAuthenticated: false before removing
+      const loggedOutUser = { ...user, isAuthenticated: false };
+      localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(loggedOutUser));
+      
+      // Small delay to ensure other tabs can read the updated state
+      setTimeout(() => {
+        localStorage.removeItem(CURRENT_USER_KEY);
+      }, 100);
+    }
+    
     setUser(null);
     setIsAuthenticated(false);
-    localStorage.removeItem(CURRENT_USER_KEY);
   };
 
   const value: AuthContextType = {

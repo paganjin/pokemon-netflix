@@ -121,6 +121,7 @@ export default [
 
       // General rules
       'no-fallthrough': 'warn',
+      'no-nested-ternary': 'error', // Prevent nested ternary operators
       'no-shadow': [
         'warn',
         {

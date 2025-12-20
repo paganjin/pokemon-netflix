@@ -101,7 +101,7 @@ export const theme = {
     headerHeight: rem(70),
     footerHeight: rem(50),
     headerHeightMobile: rem(60),
-    footerHeightMobile: rem(40),
+    footerHeightMobile: rem(70),
   },
   zIndex: {
     dropdown: 1000,

@@ -54,6 +54,28 @@ export const FavoritesProvider = ({
     } else {
       setFavorites([]);
     }
+
+    // Listen for favorites changes from other tabs
+    const handleStorageChange = (event: StorageEvent) => {
+      if (user?.id && event.key === getUserFavoritesKey(user.id)) {
+        if (event.newValue) {
+          try {
+            const updatedFavorites = JSON.parse(event.newValue);
+            setFavorites(Array.isArray(updatedFavorites) ? updatedFavorites : []);
+          } catch (error) {
+            console.error('Error parsing favorites from storage event:', error);
+          }
+        } else {
+          setFavorites([]);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [user?.id, loadUserFavorites]);
 
   const addToFavorites = (pokemonId: number) => {

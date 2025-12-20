@@ -50,14 +50,22 @@ export const PokemonModal = ({ pokemon, onClose }: PokemonModalProps) => {
 
   return (
     <div css={styles.modalOverlay} onClick={handleOverlayClick}>
-      <div css={styles.modalContent}>
+      <div css={styles.modalContent} data-testid="pokemon-modal">
         <button css={styles.closeButton} onClick={onClose}>
-          ×
+          <img 
+            css={styles.closeIcon} 
+            src="/close.svg" 
+            alt="Close modal"
+          />
         </button>
 
         <div css={styles.header}>
           <button css={styles.favoriteButton} onClick={handleFavoriteClick}>
-            <span css={styles.heartIcon(isFavorite(pokemon.id))} />
+            <img 
+              css={styles.pokeballIcon} 
+              src={isFavorite(pokemon.id) ? '/pokeball-catch.svg' : '/pokeball-empty.svg'}
+              alt={isFavorite(pokemon.id) ? 'Remove from favorites' : 'Add to favorites'}
+            />
           </button>
           <img css={styles.pokemonImage} src={imageUrl} alt={pokemon.name} />
         </div>
@@ -156,25 +164,30 @@ const styles = {
   })),
   closeButton: css(({ theme }) => ({
     position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     top: theme.spacing.md,
     right: theme.spacing.md,
-    background: 'rgba(0, 0, 0, 0.5)',
+    background: 'rgba(0, 0, 0, 0.2)',
     border: 'none',
     borderRadius: '50%',
     width: '40px',
     height: '40px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     cursor: 'pointer',
     color: 'white',
     fontSize: '1.5rem',
     zIndex: 2,
     transition: theme.transitions.fast,
     '&:hover': {
-      background: 'rgba(0, 0, 0, 0.7)',
+      background: 'rgba(0, 0, 0, 0.4)',
       transform: 'scale(1.1)',
     },
+  })),
+  closeIcon: css(() => ({
+    width: '20px',
+    height: '20px',
+    filter: 'invert(1)',
   })),
   header: css(() => ({
     position: 'relative',
@@ -195,7 +208,7 @@ const styles = {
     position: 'absolute',
     top: theme.spacing.md,
     left: theme.spacing.md,
-    background: 'rgba(0, 0, 0, 0.7)',
+    background: 'rgba(0, 0, 0, 0.2)',
     border: 'none',
     borderRadius: '50%',
     width: '50px',
@@ -207,19 +220,18 @@ const styles = {
     transition: theme.transitions.fast,
     zIndex: 2,
     '&:hover': {
-      background: 'rgba(0, 0, 0, 0.9)',
+      background: 'rgba(0, 0, 0, 0.4)',
       transform: 'scale(1.1)',
     },
   })),
-  heartIcon: (isFavorite: boolean) =>
-    css(({ theme }) => ({
-      color: isFavorite ? theme.colors.primary : theme.colors.textSecondary,
-      fontSize: '1.5rem',
-      transition: theme.transitions.fast,
-      '&::before': {
-        content: isFavorite ? '"❤️"' : '"🤍"',
-      },
-    })),
+  pokeballIcon: css(({ theme }) => ({
+    width: '24px',
+    height: '24px',
+    transition: theme.transitions.fast,
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
+  })),
   content: css(({ theme }) => ({
     padding: theme.spacing.xl,
   })),

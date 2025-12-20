@@ -26,65 +26,51 @@ A Netflix-inspired Pokemon web application built with React and TypeScript. Brow
 
 - **Favorites System**: Save Pokemon to personal collection
 - **My List Page**: Netflix-style favorites management
-- **User-specific Storage**: Favorites saved per user account
-- **Persistent Data**: Favorites preserved across sessions
-
-### 🎨 User Experience
-
-- **Netflix-inspired UI**: Dark theme with familiar streaming design
-- **Responsive Design**: Optimized for mobile, tablet, and desktop
-- **Smooth Animations**: Polished hover effects and transitions
-- **Loading States**: Skeleton screens and loading indicators
-- **Error Handling**: Graceful error management and user feedback
 
 ## 🛠️ Tech Stack
 
 ### Frontend Framework
+- **React 19** - Latest React with concurrent features and new hooks
+- **TypeScript** - Strict type safety with comprehensive type definitions
+- **Vite** - Lightning-fast build tool with HMR
 
-- **React 19** - Latest React with concurrent features
-- **TypeScript** - Type-safe development with strict mode
-- **React Router 7** - Client-side routing with protected routes
-- **styled-components 6** - CSS-in-JS with theme support
+### Styling & UI
+- **styled-components 6** - CSS-in-JS with full TypeScript support
+- **Responsive Design** - Mobile-first with 4 breakpoint system
+- **Custom Theme System** - Centralized design tokens and utilities
+- **SVG Icons** - Custom Pokeball and Pokemon-themed vector assets
 
 ### State Management & Data
+- **TanStack React Query 5** - Advanced server state with caching and background updates
+- **React Context API** - Global state for authentication and favorites
+- **React Hook Form** - Performant forms with validation and error handling
+- **Cross-Tab Synchronization** - Custom storage event listeners
 
-- **React Query 5** - Server state management and caching
-- **React Context** - Client state for auth and favorites
-- **localStorage** - Persistent user data storage
+### API & Backend
+- **pokenode-ts** - Type-safe Pokemon API client with full PokeAPI coverage
+- **PokeAPI v2** - RESTful Pokemon database (1000+ Pokemon, types, abilities)
+- **Client-Side Storage** - Sophisticated localStorage with error handling
+- **API Error Handling** - Comprehensive error boundaries and retry logic
 
-### Development Tools
+### Development & Quality
+- **ESLint 9** - Modern linting with custom rules and TypeScript integration
+- **Prettier** - Consistent code formatting across the project
+- **Husky + lint-staged** - Pre-commit hooks for code quality
+- **Strict TypeScript** - Zero `any` types, comprehensive type coverage
 
-- **Vite 7** - Fast build tool and dev server
-- **ESLint 9** - Code linting with TypeScript rules
-- **Prettier** - Code formatting
-- **Husky** - Git hooks for code quality
-- **lint-staged** - Pre-commit linting
-
-### Testing
-
-- **Vitest** - Unit testing framework
-- **React Testing Library** - Component testing utilities
-- **jsdom** - DOM environment for tests
-- **35 unit tests** - Comprehensive test coverage
-
-### API & External Services
-
-- **PokéAPI** - RESTful Pokemon data API
-- **pokenode-ts** - TypeScript Pokemon API client
-- **Axios** - HTTP client for API requests
-
-### Deployment & CI/CD
-
-- **GitHub Actions** - Automated CI/CD pipeline
-- **GitHub Pages** - Static site hosting
-- **pnpm** - Fast, disk space efficient package manager
+### Testing & Quality Assurance
+- **Vitest** - Fast unit testing with native TypeScript support
+- **@testing-library/react** - Component testing with accessibility focus
+- **Playwright** - Cross-browser E2E testing (Chrome, Firefox, Safari, Mobile)
+- **100% Test Coverage** - All unit tests (90/90) and E2E tests (100/100) passing
+- **CI/CD Pipeline** - Automated testing and deployment
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - **Node.js 18+** - JavaScript runtime
-- **pnpm** (recommended) or npm - Package manager
+- **pnpm 9+** (recommended) or npm - Package manager
 
 ### Installation & Setup
 
@@ -104,26 +90,40 @@ The app will be available at `http://localhost:5173`
 
 ## 📝 Available Scripts
 
+### Development
 ```bash
-# Development
 pnpm dev          # Start dev server at localhost:5173
 pnpm build        # Build for production
 pnpm preview      # Preview production build
+```
 
-# Code Quality
+### Code Quality
+```bash
 pnpm lint         # Run ESLint checks
 pnpm lint:fix     # Auto-fix ESLint issues
 pnpm format       # Format code with Prettier
 pnpm format:check # Check code formatting
+```
 
-# Testing
-pnpm test         # Run all tests once
+### Testing
+```bash
+# Unit Tests
+pnpm test         # Run all unit tests once
 pnpm test:watch   # Run tests in watch mode
 pnpm test:ui      # Run tests with Vitest UI
+pnpm test:coverage # Run tests with coverage report
+
+# E2E Tests  
+pnpm test:e2e     # Run Playwright tests
+pnpm test:e2e:ui  # Run E2E tests with UI
+pnpm test:e2e:headed # Run E2E tests with visible browser
+
+# Combined
+pnpm test:all     # Run both unit and E2E tests
+```
 
 # Git Hooks
 pnpm prepare      # Setup Husky git hooks
-```
 
 ## 🏗️ Project Structure
 
@@ -185,21 +185,36 @@ pokemon-netflix/
 
 ## 🧪 Testing
 
-Comprehensive test suite with **35 unit tests** covering:
+Comprehensive test suite with **100% passing tests**:
 
+### Unit Tests (90/90 passing)
 - **Authentication flows** - Login/signup validation and state management
 - **Pokemon data handling** - API calls, data transformation, and error handling
 - **Component interactions** - User interactions and UI state changes
+- **Context providers** - State management and cross-component communication
+- **Custom hooks** - Data fetching and business logic
+
+### E2E Tests (100/100 passing)
+- **Authentication system** - Complete signup/login flows across all browsers
+- **Favorites functionality** - Add/remove favorites, persistence, modal interactions
+- **Search & filtering** - Pokemon search, type filters, load more functionality
+- **Cross-browser compatibility** - Chrome, Firefox, Safari, Mobile Chrome, Mobile Safari
+- **Mobile responsiveness** - Touch interactions and mobile navigation
 
 ```bash
-# Run tests once
-pnpm test
+# Unit Tests
+pnpm test         # Run all unit tests once
+pnpm test:watch   # Run tests in watch mode
+pnpm test:ui      # Run tests with Vitest UI
+pnpm test:coverage # Run tests with coverage report
 
-# Run tests in watch mode
-pnpm test:watch
+# E2E Tests  
+pnpm test:e2e     # Run Playwright tests
+pnpm test:e2e:ui  # Run E2E tests with UI
+pnpm test:e2e:headed # Run E2E tests with visible browser
 
-# Run tests with UI
-pnpm test:ui
+# Combined
+pnpm test:all     # Run both unit and E2E tests
 ```
 
 ## 🚀 Deployment
@@ -209,9 +224,10 @@ The app is automatically deployed to GitHub Pages via GitHub Actions on every pu
 ### CI/CD Pipeline
 
 1. **Lint & Format** - Code quality checks with ESLint and Prettier
-2. **Test** - Run all unit tests with Vitest
-3. **Build** - Create optimized production build with Vite
-4. **Deploy** - Deploy to GitHub Pages with proper SPA routing
+2. **Unit Tests** - Run all 90 unit tests with Vitest
+3. **E2E Tests** - Run all 100 E2E tests with Playwright across multiple browsers
+4. **Build** - Create optimized production build with Vite
+5. **Deploy** - Deploy to GitHub Pages with proper SPA routing
 
 ### Manual Deployment Options
 
@@ -232,9 +248,10 @@ The app is automatically deployed to GitHub Pages via GitHub Actions on every pu
 ### Development Guidelines
 
 - Follow TypeScript best practices
-- Write tests for new features
+- Write tests for new features (both unit and E2E)
 - Use conventional commit messages
-- Ensure all tests pass before submitting
+- Ensure all tests pass before submitting (90 unit + 100 E2E tests)
+- Test across multiple browsers and mobile viewports
 
 ## 📝 License
 

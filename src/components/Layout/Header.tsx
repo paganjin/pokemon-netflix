@@ -127,38 +127,38 @@ export const Header = () => {
 };
 
 const styles = {
-  headerContainer: css(({ theme: t }) => ({
+  headerContainer: css(({ theme }) => ({
     position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
-    height: t.layout.headerHeight,
+    height: theme.layout.headerHeight,
     background: 'rgba(20, 20, 20, 0.95)',
-    backdropFilter: t.blur.md,
-    borderBottom: `1px solid ${t.colors.surface}`,
+    backdropFilter: theme.blur.md,
+    borderBottom: `1px solid ${theme.colors.surface}`,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: `0 ${t.spacing.xl}`,
+    padding: `0 ${theme.spacing.xl}`,
     zIndex: 1000,
     [mediaQueries.tablet]: {
-      padding: `0 ${t.spacing.lg}`,
+      padding: `0 ${theme.spacing.lg}`,
     },
     [mediaQueries.mobile]: {
-      padding: `0 ${t.spacing.md}`,
+      padding: `0 ${theme.spacing.md}`,
     },
   })),
-  logo: css(({ theme: t }) => ({
-    color: t.colors.primary,
+  logo: css(({ theme }) => ({
+    color: theme.colors.primary,
     margin: 0,
     [mediaQueries.mobile]: {
       fontSize: typographyStyles.h3.fontSize,
     },
   })),
-  desktopNav: css(({ theme: t }) => ({
+  desktopNav: css(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    gap: t.spacing.lg,
+    gap: theme.spacing.lg,
     [mediaQueries.tablet]: {
       display: 'none',
     },

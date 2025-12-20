@@ -1,37 +1,52 @@
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { css } from 'styled-components';
 
 import { useAuth } from '../../providers';
 import { typographyStyles, componentStyles } from '../../styles';
 
+interface FormData {
+  username: string;
+  password: string;
+}
+
 export const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const { login, signUp } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<FormData>({
+    mode: 'onBlur',
+    defaultValues: {
+      username: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
     setError('');
     setSuccess('');
     setIsLoading(true);
 
     try {
       if (isSignUp) {
-        const result = await signUp(username, password);
+        const result = await signUp(data.username, data.password);
         if (result.success) {
           setSuccess(result.message);
           setIsSignUp(false);
-          setUsername('');
-          setPassword('');
+          reset();
         } else {
           setError(result.message);
         }
       } else {
-        const result = await login(username, password);
+        const result = await login(data.username, data.password);
         if (!result.success) {
           setError(result.message);
         }
@@ -47,29 +62,39 @@ export const Login = () => {
     setIsSignUp(!isSignUp);
     setError('');
     setSuccess('');
-    setUsername('');
-    setPassword('');
+    reset();
   };
 
   return (
     <div css={styles.loginContainer}>
       <div css={styles.loginCard}>
         <h1 css={styles.logo}>PokéFlix</h1>
-        <form css={styles.form} onSubmit={handleSubmit}>
+        <form css={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <div css={styles.inputGroup}>
             <label css={styles.label} htmlFor="username">
               Username
             </label>
             <input
-              css={styles.input}
+              css={[styles.input, errors.username && styles.inputError]}
               id="username"
               type="text"
               placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
               disabled={isLoading}
-              required
+              {...register('username', {
+                required: 'Username is required',
+                minLength: {
+                  value: 3,
+                  message: 'Username must be at least 3 characters',
+                },
+                maxLength: {
+                  value: 20,
+                  message: 'Username must be less than 20 characters',
+                },
+              })}
             />
+            {errors.username && (
+              <span css={styles.fieldError}>{errors.username.message}</span>
+            )}
           </div>
 
           <div css={styles.inputGroup}>
@@ -77,15 +102,22 @@ export const Login = () => {
               Password
             </label>
             <input
-              css={styles.input}
+              css={[styles.input, errors.password && styles.inputError]}
               id="password"
               type="password"
               placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
-              required
+              {...register('password', {
+                required: 'Password is required',
+                minLength: {
+                  value: 6,
+                  message: 'Password must be at least 6 characters',
+                },
+              })}
             />
+            {errors.password && (
+              <span css={styles.fieldError}>{errors.password.message}</span>
+            )}
           </div>
 
           <button
@@ -93,13 +125,12 @@ export const Login = () => {
             type="submit"
             disabled={isLoading}
           >
-            {isLoading
-              ? isSignUp
-                ? 'Creating Account...'
-                : 'Signing In...'
-              : isSignUp
-                ? 'Sign Up'
-                : 'Sign In'}
+            {(() => {
+              if (isLoading) {
+                return isSignUp ? 'Creating Account...' : 'Signing In...';
+              }
+              return isSignUp ? 'Sign Up' : 'Sign In';
+            })()}
           </button>
 
           {error && <div css={styles.errorMessage}>{error}</div>}
@@ -170,6 +201,19 @@ const styles = {
     '&::placeholder': {
       color: theme.colors.textSecondary,
     },
+  })),
+  inputError: css(({ theme }) => ({
+    border: `2px solid ${theme.colors.error}`,
+    '&:focus': {
+      borderColor: theme.colors.error,
+      boxShadow: `0 0 0 3px ${theme.colors.error}20`,
+    },
+  })),
+  fieldError: css(({ theme }) => ({
+    ...typographyStyles.bodySmall,
+    color: theme.colors.error,
+    marginTop: theme.spacing.xs,
+    fontSize: '0.875rem',
   })),
   button: (isLoading: boolean) =>
     css(({ theme }) => ({

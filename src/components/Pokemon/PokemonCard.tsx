@@ -36,16 +36,20 @@ export const PokemonCard = ({
   if (isLoading) {
     return (
       <div css={styles.loadingCard}>
-        <div css={styles.loadingSpinner} />
+        <div css={styles.loadingSpinner} data-testid="loading-spinner" />
       </div>
     );
   }
 
   return (
-    <div css={styles.card} onClick={() => onClick(pokemon)}>
+    <div css={styles.card} onClick={() => onClick(pokemon)} data-testid="pokemon-card">
       <div css={styles.imageContainer}>
         <button css={styles.favoriteButton} onClick={handleFavoriteClick}>
-          <span css={styles.heartIcon(isFavorite(pokemon.id))} />
+          <img 
+            css={styles.pokeballIcon} 
+            src={isFavorite(pokemon.id) ? '/pokeball-catch.svg' : '/pokeball-empty.svg'}
+            alt={isFavorite(pokemon.id) ? 'Remove from favorites' : 'Add to favorites'}
+          />
         </button>
 
         <img
@@ -111,7 +115,7 @@ const styles = {
     position: 'absolute',
     top: theme.spacing.sm,
     right: theme.spacing.sm,
-    background: 'rgba(255, 255, 255, 0.9)',
+    background: 'rgba(255, 255, 255, 0.2)',
     border: 'none',
     borderRadius: '50%',
     width: '40px',
@@ -123,19 +127,18 @@ const styles = {
     zIndex: 2,
     transition: theme.transitions.fast,
     '&:hover': {
-      background: 'rgba(255, 255, 255, 1)',
+      background: 'rgba(255, 255, 255, 0.4)',
       transform: 'scale(1.1)',
     },
   })),
-  heartIcon: (isFavorite: boolean) =>
-    css(({ theme }) => ({
-      color: isFavorite ? theme.colors.primary : theme.colors.textSecondary,
-      fontSize: '1.2rem',
-      transition: theme.transitions.fast,
-      '&::before': {
-        content: isFavorite ? '"♥"' : '"♡"',
-      },
-    })),
+  pokeballIcon: css(({ theme }) => ({
+    width: '20px',
+    height: '20px',
+    transition: theme.transitions.fast,
+    '&:hover': {
+      transform: 'scale(1.1)',
+    },
+  })),
   cardContent: css(({ theme }) => ({
     padding: theme.spacing.lg,
     display: 'flex',
