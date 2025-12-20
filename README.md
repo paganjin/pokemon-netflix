@@ -17,10 +17,10 @@ A Netflix-inspired Pokemon web application built with React and TypeScript. Brow
 
 ### 🎯 Pokemon Discovery
 
-- **Infinite Scroll**: Seamless browsing through all 1000+ Pokemon
+- **Load More Pagination**: Browse through all Pokemon with load more functionality
 - **Real-time Search**: Find Pokemon by name with instant results
 - **Type Filtering**: Browse Pokemon by their elemental types
-- **Detailed Modal Views**: Comprehensive Pokemon stats and information
+- **Detailed Modal Views**: Comprehensive Pokemon stats and information powered by pokenode-ts
 
 ### ❤️ Personal Collections
 
@@ -47,8 +47,7 @@ A Netflix-inspired Pokemon web application built with React and TypeScript. Brow
 - **Cross-Tab Synchronization** - Custom storage event listeners
 
 ### API & Backend
-- **pokenode-ts** - Type-safe Pokemon API client with full PokeAPI coverage
-- **PokeAPI v2** - RESTful Pokemon database (1000+ Pokemon, types, abilities)
+- **pokenode-ts** - Type-safe Pokemon API client with comprehensive Pokemon data
 - **Client-Side Storage** - Sophisticated localStorage with error handling
 - **API Error Handling** - Comprehensive error boundaries and retry logic
 
@@ -56,7 +55,7 @@ A Netflix-inspired Pokemon web application built with React and TypeScript. Brow
 - **ESLint 9** - Modern linting with custom rules and TypeScript integration
 - **Prettier** - Consistent code formatting across the project
 - **Husky + lint-staged** - Pre-commit hooks for code quality
-- **Strict TypeScript** - Zero `any` types, comprehensive type coverage
+- **Strict TypeScript** - Comprehensive type coverage with pokenode-ts integration
 
 ### Testing & Quality Assurance
 - **Vitest** - Fast unit testing with native TypeScript support
