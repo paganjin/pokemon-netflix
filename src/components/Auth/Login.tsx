@@ -107,6 +107,7 @@ export const Login = () => {
               type="password"
               placeholder="Enter your password"
               disabled={isLoading}
+              autoComplete="password"
               {...register('password', {
                 required: 'Password is required',
                 minLength: {
