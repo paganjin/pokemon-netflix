@@ -19,6 +19,7 @@
     "test:all": "pnpm test && pnpm test:e2e",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "pre-commit-check": "pnpm lint && pnpm format:check && tsc --noEmit",
     "prepare": "husky",
     "pre-commit": "lint-staged"
   },
@@ -66,7 +67,8 @@
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
       "eslint --fix",
-      "prettier --write"
+      "prettier --write",
+      "tsc --noEmit"
     ],
     "*.{json,md,yml,yaml}": [
       "prettier --write"
