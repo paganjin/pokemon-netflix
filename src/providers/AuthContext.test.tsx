@@ -180,7 +180,7 @@ describe('AuthContext', () => {
 
       // User should not be logged in after signup
       expect(screen.getByTestId('user-info')).toHaveTextContent('no-user');
-      
+
       // But the user should be saved to localStorage
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'pokemon-netflix-users',
@@ -282,7 +282,7 @@ describe('AuthContext', () => {
       });
 
       expect(screen.getByTestId('user-info')).toHaveTextContent('no-user');
-      
+
       // Should first set isAuthenticated to false, then remove after delay
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'pokemon-netflix-current-user',
@@ -294,7 +294,9 @@ describe('AuthContext', () => {
   describe('useAuth Hook', () => {
     it('should throw error when used outside AuthProvider', () => {
       // Mock console.error to avoid test output noise
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
       expect(() => {
         render(<TestComponent />);

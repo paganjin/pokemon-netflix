@@ -75,14 +75,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log('saveUser called with:', user);
       const users = getStoredUsers();
       console.log('existing users:', users);
-      
+
       // Ensure user object is valid before proceeding
       if (!user || !user.username || !user.id) {
         console.error('Invalid user object:', user);
         return;
       }
-      
-      const existingIndex = users.findIndex((u) => u.username === user.username);
+
+      const existingIndex = users.findIndex(
+        (u) => u.username === user.username,
+      );
 
       if (existingIndex >= 0) {
         users[existingIndex] = user;
@@ -93,7 +95,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.log('saving users to localStorage:', users);
       localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
       console.log('localStorage save completed');
-      
+
       // Verify the save worked
       const savedUsers = localStorage.getItem(USERS_STORAGE_KEY);
       console.log('Verification - saved data:', savedUsers);
@@ -172,13 +174,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // Update user object with isAuthenticated: false before removing
       const loggedOutUser = { ...user, isAuthenticated: false };
       localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(loggedOutUser));
-      
+
       // Small delay to ensure other tabs can read the updated state
       setTimeout(() => {
         localStorage.removeItem(CURRENT_USER_KEY);
       }, 100);
     }
-    
+
     setUser(null);
     setIsAuthenticated(false);
   };

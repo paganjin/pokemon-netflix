@@ -30,34 +30,40 @@ A Netflix-inspired Pokemon web application built with React and TypeScript. Brow
 ## 🛠️ Tech Stack
 
 ### Frontend Framework
+
 - **React 19** - Latest React with concurrent features and new hooks
 - **TypeScript** - Strict type safety with comprehensive type definitions
 - **Vite** - Lightning-fast build tool with HMR
 
 ### Styling & UI
+
 - **styled-components 6** - CSS-in-JS with full TypeScript support
 - **Responsive Design** - Mobile-first with 4 breakpoint system
 - **Custom Theme System** - Centralized design tokens and utilities
 - **SVG Icons** - Custom Pokeball and Pokemon-themed vector assets
 
 ### State Management & Data
+
 - **TanStack React Query 5** - Advanced server state with caching and background updates
 - **React Context API** - Global state for authentication and favorites
 - **React Hook Form** - Performant forms with validation and error handling
 - **Cross-Tab Synchronization** - Custom storage event listeners
 
 ### API & Backend
+
 - **pokenode-ts** - Type-safe Pokemon API client with comprehensive Pokemon data
 - **Client-Side Storage** - Sophisticated localStorage with error handling
 - **API Error Handling** - Comprehensive error boundaries and retry logic
 
 ### Development & Quality
+
 - **ESLint 9** - Modern linting with custom rules and TypeScript integration
 - **Prettier** - Consistent code formatting across the project
 - **Husky + lint-staged** - Pre-commit hooks for code quality
 - **Strict TypeScript** - Comprehensive type coverage with pokenode-ts integration
 
 ### Testing & Quality Assurance
+
 - **Vitest** - Fast unit testing with native TypeScript support
 - **@testing-library/react** - Component testing with accessibility focus
 - **Playwright** - Cross-browser E2E testing (Chrome, Firefox, Safari, Mobile)
@@ -90,6 +96,7 @@ The app will be available at `http://localhost:5173`
 ## 📝 Available Scripts
 
 ### Development
+
 ```bash
 pnpm dev          # Start dev server at localhost:5173
 pnpm build        # Build for production
@@ -97,6 +104,7 @@ pnpm preview      # Preview production build
 ```
 
 ### Code Quality
+
 ```bash
 pnpm lint         # Run ESLint checks
 pnpm lint:fix     # Auto-fix ESLint issues
@@ -105,6 +113,7 @@ pnpm format:check # Check code formatting
 ```
 
 ### Testing
+
 ```bash
 # Unit Tests
 pnpm test         # Run all unit tests once
@@ -112,7 +121,7 @@ pnpm test:watch   # Run tests in watch mode
 pnpm test:ui      # Run tests with Vitest UI
 pnpm test:coverage # Run tests with coverage report
 
-# E2E Tests  
+# E2E Tests
 pnpm test:e2e     # Run Playwright tests
 pnpm test:e2e:ui  # Run E2E tests with UI
 pnpm test:e2e:headed # Run E2E tests with visible browser
@@ -122,7 +131,8 @@ pnpm test:all     # Run both unit and E2E tests
 ```
 
 # Git Hooks
-pnpm prepare      # Setup Husky git hooks
+
+pnpm prepare # Setup Husky git hooks
 
 ## 🏗️ Project Structure
 
@@ -187,6 +197,7 @@ pokemon-netflix/
 Comprehensive test suite with **100% passing tests**:
 
 ### Unit Tests (90/90 passing)
+
 - **Authentication flows** - Login/signup validation and state management
 - **Pokemon data handling** - API calls, data transformation, and error handling
 - **Component interactions** - User interactions and UI state changes
@@ -194,6 +205,7 @@ Comprehensive test suite with **100% passing tests**:
 - **Custom hooks** - Data fetching and business logic
 
 ### E2E Tests (100/100 passing)
+
 - **Authentication system** - Complete signup/login flows across all browsers
 - **Favorites functionality** - Add/remove favorites, persistence, modal interactions
 - **Search & filtering** - Pokemon search, type filters, load more functionality
@@ -207,7 +219,7 @@ pnpm test:watch   # Run tests in watch mode
 pnpm test:ui      # Run tests with Vitest UI
 pnpm test:coverage # Run tests with coverage report
 
-# E2E Tests  
+# E2E Tests
 pnpm test:e2e     # Run Playwright tests
 pnpm test:e2e:ui  # Run E2E tests with UI
 pnpm test:e2e:headed # Run E2E tests with visible browser

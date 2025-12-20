@@ -42,13 +42,25 @@ export const PokemonCard = ({
   }
 
   return (
-    <div css={styles.card} onClick={() => onClick(pokemon)} data-testid="pokemon-card">
+    <div
+      css={styles.card}
+      onClick={() => onClick(pokemon)}
+      data-testid="pokemon-card"
+    >
       <div css={styles.imageContainer}>
         <button css={styles.favoriteButton} onClick={handleFavoriteClick}>
-          <img 
-            css={styles.pokeballIcon} 
-            src={isFavorite(pokemon.id) ? '/pokeball-catch.svg' : '/pokeball-empty.svg'}
-            alt={isFavorite(pokemon.id) ? 'Remove from favorites' : 'Add to favorites'}
+          <img
+            css={styles.pokeballIcon}
+            src={
+              isFavorite(pokemon.id)
+                ? '/pokeball-catch.svg'
+                : '/pokeball-empty.svg'
+            }
+            alt={
+              isFavorite(pokemon.id)
+                ? 'Remove from favorites'
+                : 'Add to favorites'
+            }
           />
         </button>
 

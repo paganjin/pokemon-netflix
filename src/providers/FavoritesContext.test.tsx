@@ -21,7 +21,8 @@ const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener');
 
 // Test component to access FavoritesContext
 const TestComponent = () => {
-  const { favorites, addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
+  const { favorites, addToFavorites, removeFromFavorites, isFavorite } =
+    useFavorites();
 
   return (
     <div>
@@ -34,17 +35,13 @@ const TestComponent = () => {
         ))}
       </div>
       <div data-testid="is-favorite-1">{isFavorite(1) ? 'true' : 'false'}</div>
-      <div data-testid="is-favorite-25">{isFavorite(25) ? 'true' : 'false'}</div>
-      <button
-        data-testid="add-pokemon-1"
-        onClick={() => addToFavorites(1)}
-      >
+      <div data-testid="is-favorite-25">
+        {isFavorite(25) ? 'true' : 'false'}
+      </div>
+      <button data-testid="add-pokemon-1" onClick={() => addToFavorites(1)}>
         Add Pokemon 1
       </button>
-      <button
-        data-testid="add-pokemon-25"
-        onClick={() => addToFavorites(25)}
-      >
+      <button data-testid="add-pokemon-25" onClick={() => addToFavorites(25)}>
         Add Pokemon 25
       </button>
       <button
@@ -78,7 +75,7 @@ const renderWithProviders = () => {
   return render(
     <FavoritesProvider>
       <TestComponent />
-    </FavoritesProvider>
+    </FavoritesProvider>,
   );
 };
 
@@ -129,7 +126,9 @@ describe('FavoritesContext', () => {
       });
 
       // Mock console.error to avoid test output noise
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
       renderWithProviders();
 
@@ -187,7 +186,7 @@ describe('FavoritesContext', () => {
       expect(screen.getByTestId('favorites-count')).toHaveTextContent('1');
       expect(screen.getByTestId('is-favorite-1')).toHaveTextContent('true');
       expect(screen.getByTestId('favorite-1')).toHaveTextContent('1');
-      
+
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'pokemon-netflix-user-favorites-test-user-123',
         JSON.stringify([1]),
@@ -203,7 +202,7 @@ describe('FavoritesContext', () => {
       expect(screen.getByTestId('favorites-count')).toHaveTextContent('2');
       expect(screen.getByTestId('is-favorite-1')).toHaveTextContent('true');
       expect(screen.getByTestId('is-favorite-25')).toHaveTextContent('true');
-      
+
       expect(localStorageMock.setItem).toHaveBeenLastCalledWith(
         'pokemon-netflix-user-favorites-test-user-123',
         JSON.stringify([1, 25]),
@@ -231,7 +230,7 @@ describe('FavoritesContext', () => {
 
       expect(screen.getByTestId('favorites-count')).toHaveTextContent('0');
       expect(localStorageMock.setItem).not.toHaveBeenCalled();
-      
+
       // Reset mock state
       mockUseAuth.user = {
         id: 'test-user-123',
@@ -265,7 +264,7 @@ describe('FavoritesContext', () => {
 
       expect(screen.getByTestId('favorites-count')).toHaveTextContent('2');
       expect(screen.getByTestId('is-favorite-1')).toHaveTextContent('false');
-      
+
       expect(localStorageMock.setItem).toHaveBeenCalledWith(
         'pokemon-netflix-user-favorites-test-user-123',
         JSON.stringify([25, 150]),
@@ -293,7 +292,7 @@ describe('FavoritesContext', () => {
 
       // Should not call setItem for removal
       expect(localStorageMock.setItem).not.toHaveBeenCalled();
-      
+
       // Reset mock state
       mockUseAuth.user = {
         id: 'test-user-123',
@@ -383,7 +382,9 @@ describe('FavoritesContext', () => {
     });
 
     it('should handle corrupted data in storage event gracefully', async () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
       renderWithProviders();
 
@@ -419,13 +420,17 @@ describe('FavoritesContext', () => {
       fireEvent(window, storageEvent);
 
       // Should not change favorites
-      expect(screen.getByTestId('favorites-count')).toHaveTextContent(initialCount || '0');
+      expect(screen.getByTestId('favorites-count')).toHaveTextContent(
+        initialCount || '0',
+      );
     });
   });
 
   describe('useFavorites Hook', () => {
     it('should throw error when used outside FavoritesProvider', () => {
-      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => {});
 
       expect(() => {
         render(<TestComponent />);

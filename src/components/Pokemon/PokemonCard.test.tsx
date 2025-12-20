@@ -73,11 +73,7 @@ const mockPokemon = {
 } as unknown as Pokemon;
 
 const renderWithTheme = (component: React.ReactElement) => {
-  return render(
-    <ThemeProvider theme={theme}>
-      {component}
-    </ThemeProvider>
-  );
+  return render(<ThemeProvider theme={theme}>{component}</ThemeProvider>);
 };
 
 describe('PokemonCard', () => {
@@ -91,7 +87,11 @@ describe('PokemonCard', () => {
   describe('Loading State', () => {
     it('should render loading spinner when loading', () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} isLoading={true} onClick={mockOnClick} />
+        <PokemonCard
+          pokemon={mockPokemon}
+          isLoading={true}
+          onClick={mockOnClick}
+        />,
       );
 
       expect(screen.getByTestId('loading-spinner')).toBeInTheDocument();
@@ -102,7 +102,7 @@ describe('PokemonCard', () => {
   describe('Pokemon Display', () => {
     it('should render Pokemon information correctly', () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
       expect(screen.getByText('bulbasaur')).toBeInTheDocument();
@@ -113,7 +113,7 @@ describe('PokemonCard', () => {
 
     it('should render Pokemon image with correct src and alt', () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
       const image = screen.getByAltText('bulbasaur');
@@ -130,11 +130,14 @@ describe('PokemonCard', () => {
       } as unknown as Pokemon;
 
       renderWithTheme(
-        <PokemonCard pokemon={pokemonWithoutArtwork} onClick={mockOnClick} />
+        <PokemonCard pokemon={pokemonWithoutArtwork} onClick={mockOnClick} />,
       );
 
       const image = screen.getByAltText('bulbasaur');
-      expect(image).toHaveAttribute('src', 'https://example.com/bulbasaur-sprite.png');
+      expect(image).toHaveAttribute(
+        'src',
+        'https://example.com/bulbasaur-sprite.png',
+      );
     });
 
     it('should fallback to PokeAPI URL when no sprites available', () => {
@@ -144,7 +147,7 @@ describe('PokemonCard', () => {
       } as unknown as Pokemon;
 
       renderWithTheme(
-        <PokemonCard pokemon={pokemonWithoutSprites} onClick={mockOnClick} />
+        <PokemonCard pokemon={pokemonWithoutSprites} onClick={mockOnClick} />,
       );
 
       const image = screen.getByAltText('bulbasaur');
@@ -158,7 +161,7 @@ describe('PokemonCard', () => {
       };
 
       renderWithTheme(
-        <PokemonCard pokemon={pokemonWithHighId} onClick={mockOnClick} />
+        <PokemonCard pokemon={pokemonWithHighId} onClick={mockOnClick} />,
       );
 
       expect(screen.getByText('#150')).toBeInTheDocument();
@@ -166,7 +169,7 @@ describe('PokemonCard', () => {
 
     it('should capitalize Pokemon name', () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
       // The name should be displayed as capitalized
@@ -179,12 +182,14 @@ describe('PokemonCard', () => {
       mockUseFavorites.isFavorite.mockReturnValue(false);
 
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
-      const favoriteButton = screen.getByRole('button', { name: /add to favorites/i });
+      const favoriteButton = screen.getByRole('button', {
+        name: /add to favorites/i,
+      });
       const pokeballIcon = favoriteButton.querySelector('img');
-      
+
       expect(pokeballIcon).toHaveAttribute('src', '/pokeball-empty.svg');
       expect(pokeballIcon).toHaveAttribute('alt', 'Add to favorites');
     });
@@ -193,12 +198,14 @@ describe('PokemonCard', () => {
       mockUseFavorites.isFavorite.mockReturnValue(true);
 
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
-      const favoriteButton = screen.getByRole('button', { name: /remove from favorites/i });
+      const favoriteButton = screen.getByRole('button', {
+        name: /remove from favorites/i,
+      });
       const pokeballIcon = favoriteButton.querySelector('img');
-      
+
       expect(pokeballIcon).toHaveAttribute('src', '/pokeball-catch.svg');
       expect(pokeballIcon).toHaveAttribute('alt', 'Remove from favorites');
     });
@@ -207,10 +214,12 @@ describe('PokemonCard', () => {
       mockUseFavorites.isFavorite.mockReturnValue(false);
 
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
-      const favoriteButton = screen.getByRole('button', { name: /add to favorites/i });
+      const favoriteButton = screen.getByRole('button', {
+        name: /add to favorites/i,
+      });
       fireEvent.click(favoriteButton);
 
       expect(mockUseFavorites.addToFavorites).toHaveBeenCalledWith(1);
@@ -221,10 +230,12 @@ describe('PokemonCard', () => {
       mockUseFavorites.isFavorite.mockReturnValue(true);
 
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
-      const favoriteButton = screen.getByRole('button', { name: /remove from favorites/i });
+      const favoriteButton = screen.getByRole('button', {
+        name: /remove from favorites/i,
+      });
       fireEvent.click(favoriteButton);
 
       expect(mockUseFavorites.removeFromFavorites).toHaveBeenCalledWith(1);
@@ -233,10 +244,12 @@ describe('PokemonCard', () => {
 
     it('should prevent event propagation when clicking favorite button', () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
-      const favoriteButton = screen.getByRole('button', { name: /add to favorites/i });
+      const favoriteButton = screen.getByRole('button', {
+        name: /add to favorites/i,
+      });
       fireEvent.click(favoriteButton);
 
       // The card onClick should not be called when clicking the favorite button
@@ -247,7 +260,7 @@ describe('PokemonCard', () => {
   describe('Card Interaction', () => {
     it('should call onClick when clicking the card', () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
       const card = screen.getByText('bulbasaur').closest('div');
@@ -258,7 +271,11 @@ describe('PokemonCard', () => {
 
     it('should not call onClick when in loading state', () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} isLoading={true} onClick={mockOnClick} />
+        <PokemonCard
+          pokemon={mockPokemon}
+          isLoading={true}
+          onClick={mockOnClick}
+        />,
       );
 
       // Loading state should not be clickable
@@ -272,11 +289,11 @@ describe('PokemonCard', () => {
   describe('Image Loading', () => {
     it('should handle image load event', async () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
       const image = screen.getByAltText('bulbasaur');
-      
+
       // Initially image should have opacity 0
       expect(image).toHaveStyle({ opacity: '0' });
 
@@ -292,7 +309,7 @@ describe('PokemonCard', () => {
   describe('Type Display', () => {
     it('should render all Pokemon types', () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
       expect(screen.getByText('grass')).toBeInTheDocument();
@@ -312,7 +329,7 @@ describe('PokemonCard', () => {
       } as unknown as Pokemon;
 
       renderWithTheme(
-        <PokemonCard pokemon={pokemonWithTypes} onClick={mockOnClick} />
+        <PokemonCard pokemon={pokemonWithTypes} onClick={mockOnClick} />,
       );
 
       expect(screen.getByText('electric')).toBeInTheDocument();
@@ -326,7 +343,7 @@ describe('PokemonCard', () => {
       } as unknown as Pokemon;
 
       renderWithTheme(
-        <PokemonCard pokemon={noTypePokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={noTypePokemon} onClick={mockOnClick} />,
       );
 
       // Should still render the card without crashing
@@ -339,16 +356,18 @@ describe('PokemonCard', () => {
       mockUseFavorites.isFavorite.mockReturnValue(false);
 
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
-      const favoriteButton = screen.getByRole('button', { name: /add to favorites/i });
+      const favoriteButton = screen.getByRole('button', {
+        name: /add to favorites/i,
+      });
       expect(favoriteButton).toBeInTheDocument();
     });
 
     it('should have proper alt text for Pokemon image', () => {
       renderWithTheme(
-        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />
+        <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
       const image = screen.getByAltText('bulbasaur');

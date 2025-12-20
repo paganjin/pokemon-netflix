@@ -61,7 +61,9 @@ export const FavoritesProvider = ({
         if (event.newValue) {
           try {
             const updatedFavorites = JSON.parse(event.newValue);
-            setFavorites(Array.isArray(updatedFavorites) ? updatedFavorites : []);
+            setFavorites(
+              Array.isArray(updatedFavorites) ? updatedFavorites : [],
+            );
           } catch (error) {
             console.error('Error parsing favorites from storage event:', error);
           }

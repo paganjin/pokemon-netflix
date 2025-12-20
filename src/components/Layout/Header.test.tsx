@@ -18,16 +18,19 @@ describe('Header Component Logic', () => {
     // Test unauthenticated state
     mockUseAuth.user = null;
     mockUseAuth.isAuthenticated = false;
-    
+
     expect(mockUseAuth.isAuthenticated).toBe(false);
     expect(mockUseAuth.user).toBeNull();
-    
+
     // Test authenticated state
     mockUseAuth.user = { id: 'test-user-123', username: 'testuser' };
     mockUseAuth.isAuthenticated = true;
-    
+
     expect(mockUseAuth.isAuthenticated).toBe(true);
-    expect(mockUseAuth.user).toEqual({ id: 'test-user-123', username: 'testuser' });
+    expect(mockUseAuth.user).toEqual({
+      id: 'test-user-123',
+      username: 'testuser',
+    });
   });
 
   it('should call logout function when invoked', () => {

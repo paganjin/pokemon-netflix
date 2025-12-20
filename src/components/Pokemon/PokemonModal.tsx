@@ -52,19 +52,23 @@ export const PokemonModal = ({ pokemon, onClose }: PokemonModalProps) => {
     <div css={styles.modalOverlay} onClick={handleOverlayClick}>
       <div css={styles.modalContent} data-testid="pokemon-modal">
         <button css={styles.closeButton} onClick={onClose}>
-          <img 
-            css={styles.closeIcon} 
-            src="/close.svg" 
-            alt="Close modal"
-          />
+          <img css={styles.closeIcon} src="/close.svg" alt="Close modal" />
         </button>
 
         <div css={styles.header}>
           <button css={styles.favoriteButton} onClick={handleFavoriteClick}>
-            <img 
-              css={styles.pokeballIcon} 
-              src={isFavorite(pokemon.id) ? '/pokeball-catch.svg' : '/pokeball-empty.svg'}
-              alt={isFavorite(pokemon.id) ? 'Remove from favorites' : 'Add to favorites'}
+            <img
+              css={styles.pokeballIcon}
+              src={
+                isFavorite(pokemon.id)
+                  ? '/pokeball-catch.svg'
+                  : '/pokeball-empty.svg'
+              }
+              alt={
+                isFavorite(pokemon.id)
+                  ? 'Remove from favorites'
+                  : 'Add to favorites'
+              }
             />
           </button>
           <img css={styles.pokemonImage} src={imageUrl} alt={pokemon.name} />
