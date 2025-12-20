@@ -74,7 +74,7 @@ A Netflix-inspired Pokemon web application built with React and TypeScript. Brow
 
 ### Prerequisites
 
-- **Node.js 18+** - JavaScript runtime
+- **Node.js 22.12+** - JavaScript runtime
 - **pnpm 9+** (recommended) or npm - Package manager
 
 ### Installation & Setup
