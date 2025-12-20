@@ -4,6 +4,9 @@ import { css } from 'styled-components';
 
 import { useFavorites } from '../../providers';
 import { mediaQueries, getTypeColor } from '../../styles';
+import CloseIcon from '../../assets/close.svg?react';
+import PokeballCatchIcon from '../../assets/pokeball-catch.svg?react';
+import PokeballEmptyIcon from '../../assets/pokeball-empty.svg?react';
 
 interface PokemonModalProps {
   pokemon: Pokemon;
@@ -51,25 +54,27 @@ export const PokemonModal = ({ pokemon, onClose }: PokemonModalProps) => {
   return (
     <div css={styles.modalOverlay} onClick={handleOverlayClick}>
       <div css={styles.modalContent} data-testid="pokemon-modal">
-        <button css={styles.closeButton} onClick={onClose}>
-          <img css={styles.closeIcon} src="./close.svg" alt="Close modal" />
+        <button css={styles.closeButton} onClick={onClose} aria-label="Close modal">
+          <CloseIcon css={styles.closeIcon} data-testid="close-modal" />
         </button>
 
         <div css={styles.header}>
-          <button css={styles.favoriteButton} onClick={handleFavoriteClick}>
-            <img
-              css={styles.pokeballIcon}
-              src={
-                isFavorite(pokemon.id)
-                  ? './pokeball-catch.svg'
-                  : './pokeball-empty.svg'
-              }
-              alt={
-                isFavorite(pokemon.id)
-                  ? 'Remove from favorites'
-                  : 'Add to favorites'
-              }
-            />
+          <button 
+            css={styles.favoriteButton} 
+            onClick={handleFavoriteClick}
+            aria-label={isFavorite(pokemon.id) ? 'Remove from favorites' : 'Add to favorites'}
+          >
+            {isFavorite(pokemon.id) ? (
+              <PokeballCatchIcon
+                css={styles.pokeballIcon}
+                data-testid="pokeball-filled"
+              />
+            ) : (
+              <PokeballEmptyIcon
+                css={styles.pokeballIcon}
+                data-testid="pokeball-empty"
+              />
+            )}
           </button>
           <img css={styles.pokemonImage} src={imageUrl} alt={pokemon.name} />
         </div>

@@ -72,9 +72,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const saveUser = (user: StoredUser) => {
     try {
-      console.log('saveUser called with:', user);
       const users = getStoredUsers();
-      console.log('existing users:', users);
 
       // Ensure user object is valid before proceeding
       if (!user || !user.username || !user.id) {
@@ -92,13 +90,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         users.push(user);
       }
 
-      console.log('saving users to localStorage:', users);
       localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-      console.log('localStorage save completed');
-
-      // Verify the save worked
-      const savedUsers = localStorage.getItem(USERS_STORAGE_KEY);
-      console.log('Verification - saved data:', savedUsers);
     } catch (error) {
       console.error('Error in saveUser:', error);
     }

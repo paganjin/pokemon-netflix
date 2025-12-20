@@ -185,13 +185,9 @@ describe('PokemonCard', () => {
         <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
-      const favoriteButton = screen.getByRole('button', {
-        name: /add to favorites/i,
-      });
-      const pokeballIcon = favoriteButton.querySelector('img');
+      const pokeballIcon = screen.getByTestId('pokeball-empty');
 
-      expect(pokeballIcon).toHaveAttribute('src', './pokeball-empty.svg');
-      expect(pokeballIcon).toHaveAttribute('alt', 'Add to favorites');
+      expect(pokeballIcon).toBeInTheDocument();
     });
 
     it('should show filled pokeball when Pokemon is favorite', () => {
@@ -201,13 +197,9 @@ describe('PokemonCard', () => {
         <PokemonCard pokemon={mockPokemon} onClick={mockOnClick} />,
       );
 
-      const favoriteButton = screen.getByRole('button', {
-        name: /remove from favorites/i,
-      });
-      const pokeballIcon = favoriteButton.querySelector('img');
+      const pokeballIcon = screen.getByTestId('pokeball-filled');
 
-      expect(pokeballIcon).toHaveAttribute('src', './pokeball-catch.svg');
-      expect(pokeballIcon).toHaveAttribute('alt', 'Remove from favorites');
+      expect(pokeballIcon).toBeInTheDocument();
     });
 
     it('should add Pokemon to favorites when clicking empty pokeball', () => {

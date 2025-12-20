@@ -4,6 +4,8 @@ import { css } from 'styled-components';
 
 import { useFavorites } from '../../providers';
 import { componentStyles, mediaQueries, getTypeColor } from '../../styles';
+import PokeballCatchIcon from '../../assets/pokeball-catch.svg?react';
+import PokeballEmptyIcon from '../../assets/pokeball-empty.svg?react';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -48,20 +50,22 @@ export const PokemonCard = ({
       data-testid="pokemon-card"
     >
       <div css={styles.imageContainer}>
-        <button css={styles.favoriteButton} onClick={handleFavoriteClick}>
-          <img
-            css={styles.pokeballIcon}
-            src={
-              isFavorite(pokemon.id)
-                ? './pokeball-catch.svg'
-                : './pokeball-empty.svg'
-            }
-            alt={
-              isFavorite(pokemon.id)
-                ? 'Remove from favorites'
-                : 'Add to favorites'
-            }
-          />
+        <button 
+          css={styles.favoriteButton} 
+          onClick={handleFavoriteClick}
+          aria-label={isFavorite(pokemon.id) ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          {isFavorite(pokemon.id) ? (
+            <PokeballCatchIcon
+              css={styles.pokeballIcon}
+              data-testid="pokeball-filled"
+            />
+          ) : (
+            <PokeballEmptyIcon
+              css={styles.pokeballIcon}
+              data-testid="pokeball-empty"
+            />
+          )}
         </button>
 
         <img

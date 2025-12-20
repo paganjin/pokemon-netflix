@@ -85,7 +85,16 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <NotFound />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       {selectedPokemon && (

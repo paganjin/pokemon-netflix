@@ -32,7 +32,7 @@ test.describe('Favorites Functionality', () => {
 
     // Verify pokeball changed to filled
     await expect(
-      firstCard.locator('img[src="./pokeball-catch.svg"]'),
+      firstCard.locator('[data-testid="pokeball-filled"]'),
     ).toBeVisible();
   });
 
@@ -42,7 +42,7 @@ test.describe('Favorites Functionality', () => {
     const addButton = firstCard.locator('button').first();
     await addButton.click();
     await expect(
-      firstCard.locator('img[src="./pokeball-catch.svg"]'),
+      firstCard.locator('[data-testid="pokeball-filled"]'),
     ).toBeVisible();
 
     // Remove from favorites
@@ -51,7 +51,7 @@ test.describe('Favorites Functionality', () => {
 
     // Verify pokeball changed back to empty
     await expect(
-      firstCard.locator('img[src="./pokeball-empty.svg"]'),
+      firstCard.locator('[data-testid="pokeball-empty"]'),
     ).toBeVisible();
   });
 
@@ -62,7 +62,7 @@ test.describe('Favorites Functionality', () => {
 
     await firstCard.locator('button').first().click();
     await expect(
-      firstCard.locator('img[src="./pokeball-catch.svg"]'),
+      firstCard.locator('[data-testid="pokeball-filled"]'),
     ).toBeVisible();
 
     // Navigate to My List (handle mobile dropdown)
@@ -109,7 +109,7 @@ test.describe('Favorites Functionality', () => {
     const firstCard = page.locator('[data-testid="pokemon-card"]').first();
     await firstCard.locator('button').first().click();
     await expect(
-      firstCard.locator('img[src="./pokeball-catch.svg"]'),
+      firstCard.locator('[data-testid="pokeball-filled"]'),
     ).toBeVisible();
 
     // Refresh the page
@@ -123,7 +123,7 @@ test.describe('Favorites Functionality', () => {
       .locator('[data-testid="pokemon-card"]')
       .first();
     await expect(
-      refreshedFirstCard.locator('img[src="./pokeball-catch.svg"]'),
+      refreshedFirstCard.locator('[data-testid="pokeball-filled"]'),
     ).toBeVisible();
   });
 
@@ -146,7 +146,7 @@ test.describe('Favorites Functionality', () => {
     // Verify pokeball changed in modal
     await expect(
       page.locator(
-        '[data-testid="pokemon-modal"] img[src="./pokeball-catch.svg"]',
+        '[data-testid="pokemon-modal"] [data-testid="pokeball-filled"]',
       ),
     ).toBeVisible();
 
@@ -155,7 +155,7 @@ test.describe('Favorites Functionality', () => {
 
     // Verify pokeball changed in card
     await expect(
-      firstCard.locator('img[src="./pokeball-catch.svg"]'),
+      firstCard.locator('[data-testid="pokeball-filled"]'),
     ).toBeVisible();
   });
 
@@ -173,13 +173,13 @@ test.describe('Favorites Functionality', () => {
 
     // Verify all are favorited
     await expect(
-      firstCard.locator('img[src="./pokeball-catch.svg"]'),
+      firstCard.locator('[data-testid="pokeball-filled"]'),
     ).toBeVisible();
     await expect(
-      secondCard.locator('img[src="./pokeball-catch.svg"]'),
+      secondCard.locator('[data-testid="pokeball-filled"]'),
     ).toBeVisible();
     await expect(
-      thirdCard.locator('img[src="./pokeball-catch.svg"]'),
+      thirdCard.locator('[data-testid="pokeball-filled"]'),
     ).toBeVisible();
 
     // Navigate to My List (handle mobile dropdown)
